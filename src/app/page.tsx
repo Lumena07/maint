@@ -6,11 +6,6 @@ export default async function Home() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-6">
       <h1 className="mb-6 text-2xl font-bold">Maintenance Dashboard</h1>
-      <div className="mb-4">
-        <div className="flex gap-2">
-          <a href="/import" className="inline-block rounded-md bg-blue-600 px-3 py-2 text-white hover:bg-blue-700">Import AAF PDF</a>
-        </div>
-      </div>
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {allAircraft.map(a => <AircraftCard key={a.id} aircraft={a} />)}
       </section>

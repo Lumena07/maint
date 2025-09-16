@@ -1,10 +1,10 @@
 "use client";
-import { Aircraft, MaintenanceTask, MaintenanceCheck } from "@/lib/types";
-import { computeDueForTask, computeDueForCheck, inProjectionWindow } from "@/lib/due";
+import { Aircraft, MaintenanceTask } from "@/lib/types";
+import { computeDueForTask, inProjectionWindow } from "@/lib/due";
 
 const Window = ({ d }: { d: number }) => <span className="rounded bg-gray-100 px-2 py-1 text-xs">{d}d</span>;
 
-export const Projections = ({ aircraft, tasks, checks }: { aircraft: Aircraft; tasks: MaintenanceTask[]; checks?: MaintenanceCheck[] }) => {
+export const Projections = ({ aircraft, tasks }: { aircraft: Aircraft; tasks: MaintenanceTask[] }) => {
   const windows = [30, 60, 90] as const;
 
   return (
@@ -14,22 +14,18 @@ export const Projections = ({ aircraft, tasks, checks }: { aircraft: Aircraft; t
         const taskHits = visibleTasks
           .map(t => computeDueForTask(t, aircraft))
           .filter(due => inProjectionWindow(due, aircraft, d));
-        const checkHits = (checks || [])
-          .map(c => computeDueForCheck(c, aircraft))
-          .filter(due => inProjectionWindow(due, aircraft, d));
-        const hits = [...checkHits, ...taskHits];
 
         return (
           <div key={d} className="rounded border border-gray-200 bg-white p-3">
             <div className="mb-2 flex items-center justify-between">
               <div className="font-semibold">Projection <Window d={d} /></div>
-              <div className="text-xs text-gray-500">{hits.length} due within {d} days</div>
+              <div className="text-xs text-gray-500">{taskHits.length} due within {d} days</div>
             </div>
-            {hits.length === 0 ? (
+            {taskHits.length === 0 ? (
               <p className="text-sm text-gray-500">Nothing due in this window.</p>
             ) : (
               <ul className="list-disc space-y-1 pl-5">
-                {hits.map(h => (
+                {taskHits.map(h => (
                   <li key={h.itemId} className="text-sm">
                     <span className="font-medium">{h.title}</span>{" "}
                     <span className="font-mono text-gray-700">

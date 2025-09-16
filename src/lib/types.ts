@@ -30,6 +30,10 @@ export type Assembly = {
   lastOverhaulDate?: string;
   tboHrs?: number;
   tboYears?: number;
+  // Additional engine/propeller details
+  registration?: string;
+  partNumber?: string;
+  manufacturer?: string;
 };
 
 export type Component = {
@@ -71,6 +75,19 @@ export type Component = {
   repeatIntervalHrs?: number;
   repeatIntervalCyc?: number;
   repeatIntervalDays?: number;
+  // Remaining time/cycles/days until next inspection or installation
+  remainingHrs?: number;
+  remainingCyc?: number;
+  remainingDays?: number;
+  // Next inspection or installation date
+  nextInspectionDate?: string;
+  nextInstallationDate?: string;
+  // Next inspection values (can be date, hours, or cycles)
+  nextInspectionHrs?: number;
+  nextInspectionCyc?: number;
+  // Next installation values (can be date, hours, or cycles)
+  nextInstallationHrs?: number;
+  nextInstallationCyc?: number;
 };
 
 export type MaintenanceTask = {
@@ -106,8 +123,16 @@ export type MaintenanceTask = {
   revision?: string;
   assemblyIds?: ID[];
   sourceDoc?: string;
+  // Remaining time/cycles/days until next inspection
+  remainingHrs?: number;
+  remainingCyc?: number;
+  remainingDays?: number;
+  // Next inspection date
+  nextInspectionDate?: string;
+  // Next inspection values (can be date, hours, or cycles)
+  nextInspectionHrs?: number;
+  nextInspectionCyc?: number;
 };
-
 
 export type Snag = {
   id: ID;

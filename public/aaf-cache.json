@@ -4,11 +4,39 @@
       "id": "ac-AAF",
       "registration": "5H-AAF",
       "type": "C208B",
-      "currentHrs": 0,
-      "currentCyc": 0,
-      "currentDate": "2025-09-16",
+      "currentHrs": 12101.5,
+      "currentCyc": 15424,
+      "currentDate": "2025-08-21",
       "avgDailyHrs": 7,
       "avgDailyCyc": 6
+    }
+  ],
+  "assemblies": [
+    {
+      "id": "eng-AAF-1",
+      "aircraftId": "ac-AAF",
+      "type": "Engine",
+      "position": "C",
+      "model": "PT6A-140",
+      "serial": "5102",
+      "tsnHrs": 0,
+      "csn": 0,
+      "registration": "5H-AAF",
+      "partNumber": "PT6A-140",
+      "manufacturer": "Pratt & Whitney Canada"
+    },
+    {
+      "id": "prop-AAF-1",
+      "aircraftId": "ac-AAF",
+      "type": "Propeller",
+      "position": "C",
+      "model": "HC-B3TN-3F",
+      "serial": "BUA33215",
+      "tsnHrs": 0,
+      "csn": 0,
+      "registration": "5H-AAF",
+      "partNumber": "HC-B3TN-3F",
+      "manufacturer": "Hartzell"
     }
   ],
   "tasks": [
@@ -118,14 +146,28 @@
     },
     {
       "id": "task-C208-14-engine-his",
-      "title": "Engine HIS / Limits",
+      "title": "Engine HIS",
+      "type": "Inspection",
+      "aircraftType": "C208B",
+      "initialIntervalHrs": 2000,
+      "dueUnits": ["HOURS"],
+      "reference": "SB1703, TCAA Letter TCAA/AI/CA/1.02/102",
+      "lastDoneDate": "2025-03-21",
+      "lastDoneHrs": 11671.4,
+      "sourceDoc": "c208Template.item14"
+    },
+    {
+      "id": "task-C208-14-engine-limits",
+      "title": "Engine Limits",
       "type": "Inspection",
       "aircraftType": "C208B",
       "initialIntervalHrs": 5100,
       "initialIntervalDays": 4380,
-      "initialIntervalCyc": 2000,
-      "dueUnits": ["HOURS", "DAYS", "CYCLES"],
+      "dueUnits": ["HOURS", "DAYS"],
       "reference": "SB1703, TCAA Letter TCAA/AI/CA/1.02/102",
+      "lastDoneDate": "2023-12-13",
+      "lastDoneHrs": 9766.1,
+      "sn": "PCE-VA0925",
       "sourceDoc": "c208Template.item14"
     },
     {
@@ -258,28 +300,7 @@
       "reference": "MM 5-11-00, 2B (6) & (7)",
       "sourceDoc": "c208Template.item38"
     },
-    {
-      "id": "task-C208-34-gearbox-3074154-01",
-      "title": "Gearbox (3074154-01)",
-      "type": "Inspection",
-      "aircraftType": "C208B",
-      "pn": "3074154-01",
-      "initialIntervalHrs": 5100,
-      "dueUnits": ["HOURS"],
-      "reference": "EMM 61-00-00",
-      "sourceDoc": "c208Template.item34"
-    },
-    {
-      "id": "task-C208-35-gearbox-3079150-01",
-      "title": "Gearbox (3079150-01)",
-      "type": "Inspection",
-      "aircraftType": "C208B",
-      "pn": "3079150-01",
-      "initialIntervalHrs": 5100,
-      "dueUnits": ["HOURS"],
-      "reference": "EMM 61-00-00",
-      "sourceDoc": "c208Template.item35"
-    },
+  
     {
       "id": "task-C208-36-generator-3040760",
       "title": "Generator (3040760)",
@@ -301,61 +322,6 @@
       "dueUnits": ["HOURS"],
       "reference": "EMM 29-00-00",
       "sourceDoc": "c208Template.item39"
-    },
-    {
-      "id": "task-C208-43-ignition-exciter-3040760",
-      "title": "Ignition Exciter (3040760)",
-      "type": "Inspection",
-      "aircraftType": "C208B",
-      "pn": "3040760",
-      "initialIntervalHrs": 5600,
-      "dueUnits": ["HOURS"],
-      "reference": "EMM 74-00-00",
-      "sourceDoc": "c208Template.item43"
-    },
-    {
-      "id": "task-C208-44-ignition-exciter-3040760-os",
-      "title": "Ignition Exciter (3040760) O/S",
-      "type": "Inspection",
-      "aircraftType": "C208B",
-      "pn": "3040760",
-      "initialIntervalHrs": 5600,
-      "dueUnits": ["HOURS"],
-      "reference": "EMM 74-00-00",
-      "sourceDoc": "c208Template.item44"
-    },
-    {
-      "id": "task-C208-45-ignition-exciter-3040760-os2",
-      "title": "Ignition Exciter (3040760) O/S 2",
-      "type": "Inspection",
-      "aircraftType": "C208B",
-      "pn": "3040760",
-      "initialIntervalHrs": 5600,
-      "dueUnits": ["HOURS"],
-      "reference": "EMM 74-00-00",
-      "sourceDoc": "c208Template.item45"
-    },
-    {
-      "id": "task-C208-46-ignition-exciter-3040760-os3",
-      "title": "Ignition Exciter (3040760) O/S 3",
-      "type": "Inspection",
-      "aircraftType": "C208B",
-      "pn": "3040760",
-      "initialIntervalHrs": 5600,
-      "dueUnits": ["HOURS"],
-      "reference": "EMM 74-00-00",
-      "sourceDoc": "c208Template.item46"
-    },
-    {
-      "id": "task-C208-47-ignition-exciter-3040760-os4",
-      "title": "Ignition Exciter (3040760) O/S 4",
-      "type": "Inspection",
-      "aircraftType": "C208B",
-      "pn": "3040760",
-      "initialIntervalHrs": 5600,
-      "dueUnits": ["HOURS"],
-      "reference": "EMM 74-00-00",
-      "sourceDoc": "c208Template.item47"
     },
     {
       "id": "task-C208-48-fuel-hoses-s2495",
@@ -645,6 +611,7 @@
       "dueUnits": ["DAYS"],
       "lastDoneDate": "2025-08-14",
       "reference": "5-15-20",
+      "lastDoneHrs": 12082.8,
       "sourceDoc": "c208Template.item71"
     },
     {
@@ -655,6 +622,7 @@
       "initialIntervalDays": 365,
       "dueUnits": ["DAYS"],
       "lastDoneDate": "2025-08-14",
+      "lastDoneHrs": 12082.8,
       "reference": "5-15-21",
       "sourceDoc": "c208Template.item72"
     },
@@ -665,7 +633,7 @@
       "aircraftType": "C208B",
       "initialIntervalDays": 365,
       "dueUnits": ["DAYS"],
-      "lastDoneDate": "2025-08-14",
+      "lastDoneDate": "2025-08-14","lastDoneHrs": 12082.8,
       "reference": "5-15-22",
       "sourceDoc": "c208Template.item73"
     },
