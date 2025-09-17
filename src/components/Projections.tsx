@@ -1,43 +1,131 @@
 "use client";
-import { Aircraft, MaintenanceTask } from "@/lib/types";
-import { computeDueForTask, inProjectionWindow } from "@/lib/due";
+import { Aircraft, MaintenanceTask, Component } from "@/lib/types";
 
-const Window = ({ d }: { d: number }) => <span className="rounded bg-gray-100 px-2 py-1 text-xs">{d}d</span>;
+type ProjectionsProps = {
+  aircraft: Aircraft;
+  tasks: MaintenanceTask[];
+  components: Component[];
+};
 
-export const Projections = ({ aircraft, tasks }: { aircraft: Aircraft; tasks: MaintenanceTask[] }) => {
-  const windows = [30, 60, 90] as const;
+export const Projections = ({ aircraft, tasks, components }: ProjectionsProps) => {
+  // Filter items that are due within the specified days
+  const getItemsDueWithin = (days: number) => {
+    const safeComponents = components || [];
+    const allItems = [...tasks, ...safeComponents];
+    return allItems.filter(item => {
+      // Check if item has projectedDays and it's within the specified range
+      if (item.projectedDays !== undefined) {
+        return item.projectedDays <= days && item.projectedDays > 0;
+      }
+      
+      // Fallback to old logic if projectedDays is not available
+      const remainingHrs = item.remainingHrs || 0;
+      const remainingCyc = item.remainingCyc || 0;
+      const remainingDays = item.remainingDays || 0;
+      
+      // Convert to days using aircraft averages
+      let projectedDays = 0;
+      if (remainingHrs > 0) {
+        projectedDays = remainingHrs / aircraft.avgDailyHrs;
+      } else if (remainingCyc > 0) {
+        projectedDays = remainingCyc / aircraft.avgDailyCyc;
+      } else if (remainingDays > 0) {
+        projectedDays = remainingDays;
+      }
+      
+      return projectedDays <= days && projectedDays > 0;
+    });
+  };
+
+  const items30d = getItemsDueWithin(30);
+  const items60d = getItemsDueWithin(60);
+  const items90d = getItemsDueWithin(90);
 
   return (
-    <div className="space-y-3">
-      {windows.map(d => {
-        const visibleTasks = tasks.filter(t => !t.checkId);
-        const taskHits = visibleTasks
-          .map(t => computeDueForTask(t, aircraft))
-          .filter(due => inProjectionWindow(due, aircraft, d));
-
-        return (
-          <div key={d} className="rounded border border-gray-200 bg-white p-3">
-            <div className="mb-2 flex items-center justify-between">
-              <div className="font-semibold">Projection <Window d={d} /></div>
-              <div className="text-xs text-gray-500">{taskHits.length} due within {d} days</div>
-            </div>
-            {taskHits.length === 0 ? (
-              <p className="text-sm text-gray-500">Nothing due in this window.</p>
-            ) : (
-              <ul className="list-disc space-y-1 pl-5">
-                {taskHits.map(h => (
-                  <li key={h.itemId} className="text-sm">
-                    <span className="font-medium">{h.title}</span>{" "}
-                    <span className="font-mono text-gray-700">
-                      [{h.limits.map(l => `${l.type[0]}:${l.remaining.toFixed(1)}`).join(" ")}]
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Projection 30d</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          {items30d.length} due within 30 days
+        </p>
+        {items30d.length === 0 ? (
+          <p className="text-gray-500 italic">Nothing due in this window.</p>
+        ) : (
+          <div className="space-y-2">
+            {items30d.map(item => (
+              <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                <div>
+                  <span className="font-medium">
+                    {'title' in item ? item.title : item.name}
+                  </span>
+                  <span className="text-sm text-gray-500 ml-2">
+                    ({'category' in item ? item.category : item.type})
+                  </span>
+                </div>
+                <div className="text-sm text-gray-600">
+                  {item.projectedDays ? `${Math.ceil(item.projectedDays)} days` : 'N/A'}
+                </div>
+              </div>
+            ))}
           </div>
-        );
-      })}
+        )}
+      </div>
+
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Projection 60d</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          {items60d.length} due within 60 days
+        </p>
+        {items60d.length === 0 ? (
+          <p className="text-gray-500 italic">Nothing due in this window.</p>
+        ) : (
+          <div className="space-y-2">
+            {items60d.map(item => (
+              <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                <div>
+                  <span className="font-medium">
+                    {'title' in item ? item.title : item.name}
+                  </span>
+                  <span className="text-sm text-gray-500 ml-2">
+                    ({'category' in item ? item.category : item.type})
+                  </span>
+                </div>
+                <div className="text-sm text-gray-600">
+                  {item.projectedDays ? `${Math.ceil(item.projectedDays)} days` : 'N/A'}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Projection 90d</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          {items90d.length} due within 90 days
+        </p>
+        {items90d.length === 0 ? (
+          <p className="text-gray-500 italic">Nothing due in this window.</p>
+        ) : (
+          <div className="space-y-2">
+            {items90d.map(item => (
+              <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                <div>
+                  <span className="font-medium">
+                    {'title' in item ? item.title : item.name}
+                  </span>
+                  <span className="text-sm text-gray-500 ml-2">
+                    ({'category' in item ? item.category : item.type})
+                  </span>
+                </div>
+                <div className="text-sm text-gray-600">
+                  {item.projectedDays ? `${Math.ceil(item.projectedDays)} days` : 'N/A'}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

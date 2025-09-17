@@ -88,6 +88,7 @@ export type Component = {
   // Next installation values (can be date, hours, or cycles)
   nextInstallationHrs?: number;
   nextInstallationCyc?: number;
+  projectedDays?: number;
 };
 
 export type MaintenanceTask = {
@@ -132,6 +133,7 @@ export type MaintenanceTask = {
   // Next inspection values (can be date, hours, or cycles)
   nextInspectionHrs?: number;
   nextInspectionCyc?: number;
+  projectedDays?: number;
 };
 
 export type Snag = {

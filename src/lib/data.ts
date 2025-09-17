@@ -134,4 +134,77 @@ export async function getAllComponents(): Promise<Component[]> {
   return cacheComponents.length ? cacheComponents : seededComponents;
 }
 
+// Add this function to calculate projected days for all items
+export const calculateProjectedDays = (items: (MaintenanceTask | Component)[], aircraft: Aircraft) => {
+  return items.map(item => {
+    if (!item.dueUnits || item.dueUnits.length === 0) return item;
+    
+    // Check if initial or repeat intervals should be used
+    const hasLastDone = 'lastDoneDate' in item ? item.lastDoneDate : ('installedDate' in item ? item.installedDate : null);
+    const hasRepeatInterval = item.repeatIntervalHrs || item.repeatIntervalCyc || item.repeatIntervalDays;
+    const useRepeat = !!hasLastDone && !!hasRepeatInterval;
+    
+    const projectedDaysList: number[] = [];
+    
+    // Calculate projected days for each due unit
+    item.dueUnits.forEach(unit => {
+      let projectedDays = 0;
+      
+      if (unit === "HOURS") {
+        const interval = useRepeat ? item.repeatIntervalHrs : item.initialIntervalHrs;
+        const lastDone = 'lastDoneHrs' in item ? item.lastDoneHrs : ('installedAtAcHrs' in item ? item.installedAtAcHrs : undefined);
+        
+        if (interval && lastDone !== undefined) {
+          const nextHrs = lastDone + interval;
+          const remainingHrs = nextHrs - aircraft.currentHrs;
+          projectedDays = remainingHrs / aircraft.avgDailyHrs;
+        } else if (interval) {
+          const remainingHrs = interval - aircraft.currentHrs;
+          projectedDays = remainingHrs / aircraft.avgDailyHrs;
+        }
+      } else if (unit === "CYCLES") {
+        const interval = useRepeat ? item.repeatIntervalCyc : item.initialIntervalCyc;
+        const lastDone = 'lastDoneCyc' in item ? item.lastDoneCyc : ('installedAtAcCyc' in item ? item.installedAtAcCyc : undefined);
+        
+        if (interval && lastDone !== undefined) {
+          const nextCyc = lastDone + interval;
+          const remainingCyc = nextCyc - aircraft.currentCyc;
+          projectedDays = remainingCyc / aircraft.avgDailyCyc;
+        } else if (interval) {
+          const remainingCyc = interval - aircraft.currentCyc;
+          projectedDays = remainingCyc / aircraft.avgDailyCyc;
+        }
+      } else if (unit === "DAYS") {
+        const interval = useRepeat ? item.repeatIntervalDays : item.initialIntervalDays;
+        const lastDoneDate = 'lastDoneDate' in item ? item.lastDoneDate : ('installedDate' in item ? item.installedDate : null);
+        
+        if (interval && lastDoneDate) {
+          const lastDate = new Date(lastDoneDate);
+          const nextDate = new Date(lastDate.getTime() + (interval * 24 * 60 * 60 * 1000));
+          const currentDate = new Date(aircraft.currentDate);
+          const diffTime = nextDate.getTime() - currentDate.getTime();
+          projectedDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        } else if (interval) {
+          const currentDate = new Date(aircraft.currentDate);
+          const nextDate = new Date(currentDate.getTime() + (interval * 24 * 60 * 60 * 1000));
+          const diffTime = nextDate.getTime() - currentDate.getTime();
+          projectedDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+      }
+      
+      if (projectedDays > 0) {
+        projectedDaysList.push(projectedDays);
+      }
+    });
+    
+    // Use the smallest projected days
+    const minProjectedDays = projectedDaysList.length > 0 ? Math.min(...projectedDaysList) : 0;
+    
+    return {
+      ...item,
+      projectedDays: minProjectedDays
+    };
+  });
+};
+
 
