@@ -14,6 +14,8 @@ export type Aircraft = {
   currentDate: string;
   avgDailyHrs: number;
   avgDailyCyc: number;
+  cofaHours?: number;
+  hoursToCheck?: number;
 };
 
 export type Assembly = {
@@ -171,6 +173,9 @@ export type FlightLog = {
   cycles: number;
   from?: string;
   to?: string;
+  techlogNumber?: string;
+  pilot?: string;
+  remarks?: string;
 };
 
 export type Specsheet = {

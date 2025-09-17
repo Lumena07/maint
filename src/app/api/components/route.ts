@@ -95,4 +95,4 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ error: "Failed to delete component" }, { status: 500 });
   }
-} 
+}

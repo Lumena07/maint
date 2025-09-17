@@ -4,6 +4,7 @@ import { Aircraft, MaintenanceTask, ComplianceRecord, Assembly, Snag, Component 
 import { Projections } from "@/components/Projections";
 import { SnagsList } from "@/components/SnagsList";
 import { TasksComponentsTable } from "@/components/TasksComponentsTable";
+import { HoursTracking } from "@/components/HoursTracking";
 
 type TabProps = {
   aircraft: Aircraft;
@@ -80,36 +81,7 @@ export default function AircraftTabs({ aircraft, tasks, compliance, snags, assem
 
         {activeTab === "hours" && (
           <div id="tabpanel-hours" role="tabpanel" aria-labelledby="tab-hours">
-            <div className="rounded border border-gray-200 bg-white p-4">
-              <h2 className="mb-3 text-lg font-semibold">Aircraft Hours & Cycles</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="rounded bg-gray-50 p-4">
-                  <div className="text-sm text-gray-600 mb-1">Aircraft Total</div>
-                  <div className="text-2xl font-mono font-bold">{aircraft.currentHrs.toFixed(1)}h</div>
-                  <div className="text-sm text-gray-500">{aircraft.currentCyc} cycles</div>
-                </div>
-                {engines.map(e => (
-                  <div key={e.id} className="rounded bg-gray-50 p-4">
-                    <div className="text-sm text-gray-600 mb-1">Engine {e.position}</div>
-                    <div className="text-lg font-mono font-semibold">{e.tsnHrs.toFixed(1)}h</div>
-                    <div className="text-sm text-gray-500">{e.csn} cycles</div>
-                    <div className="text-xs text-gray-400 mt-1">
-                      TSO: {(e.tsoHrs ?? 0).toFixed(1)}h / {e.cso ?? 0}c
-                    </div>
-                  </div>
-                ))}
-                {props.map(p => (
-                  <div key={p.id} className="rounded bg-gray-50 p-4">
-                    <div className="text-sm text-gray-600 mb-1">Prop {p.position}</div>
-                    <div className="text-lg font-mono font-semibold">{p.tsnHrs.toFixed(1)}h</div>
-                    <div className="text-sm text-gray-500">{p.csn} cycles</div>
-                    <div className="text-xs text-gray-400 mt-1">
-                      TSO: {(p.tsoHrs ?? 0).toFixed(1)}h / {p.cso ?? 0}c
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <HoursTracking aircraft={aircraft} assemblies={assemblies} />
           </div>
         )}
 

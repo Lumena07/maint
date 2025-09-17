@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Aircraft, MaintenanceTask, Component } from "@/lib/types";
 import { EditModal } from "./EditModal";
 import { AddModal } from "./AddModal";
@@ -332,6 +332,35 @@ export const TasksComponentsTable = ({ aircraft, tasks, components }: TasksCompo
 
   // Ensure components is an array, default to empty array if undefined
   const safeComponents = components || [];
+
+  // Calculate and save projected days when component mounts or data changes
+  useEffect(() => {
+    const calculateProjectedDays = async () => {
+      try {
+        const response = await fetch("/api/calculate-projected-days", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ aircraftId: aircraft.id }),
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          console.log("Projected days calculated and saved:", result);
+        } else {
+          console.error("Failed to calculate projected days");
+        }
+      } catch (error) {
+        console.error("Error calculating projected days:", error);
+      }
+    };
+
+    // Only calculate if we have tasks or components
+    if (tasks.length > 0 || safeComponents.length > 0) {
+      calculateProjectedDays();
+    }
+  }, [aircraft.id, tasks.length, safeComponents.length]);
   
   const rows: TableRow[] = [
     // Tasks
@@ -413,6 +442,15 @@ export const TasksComponentsTable = ({ aircraft, tasks, components }: TasksCompo
       });
       
       if (response.ok) {
+        // Calculate and save projected days after successful save
+        await fetch("/api/calculate-projected-days", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ aircraftId: aircraft.id }),
+        });
+        
         // Refresh the page to show updated data
         window.location.reload();
       } else {
@@ -435,6 +473,15 @@ export const TasksComponentsTable = ({ aircraft, tasks, components }: TasksCompo
       });
       
       if (response.ok) {
+        // Calculate and save projected days after successful add
+        await fetch("/api/calculate-projected-days", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ aircraftId: aircraft.id }),
+        });
+        
         // Refresh the page to show updated data
         window.location.reload();
       } else {
