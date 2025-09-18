@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ADSB, ADSBStatus, ADSBPriority, ADSBType } from '@/lib/types';
+import { ADSB } from '@/lib/types';
 
 // Mock data storage - in a real app, this would be a database
-let adsbRecords: ADSB[] = [
+const adsbRecords: ADSB[] = [
   {
     id: '1',
     documentNumber: 'AD-2024-001',
@@ -76,10 +76,11 @@ let adsbRecords: ADSB[] = [
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const record = adsbRecords.find(r => r.id === params.id);
+    const recordId = (await params).id;
+    const record = adsbRecords.find(r => r.id === recordId);
     
     if (!record) {
       return NextResponse.json(
@@ -100,11 +101,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const recordId = (await params).id;
     const body = await request.json();
-    const recordIndex = adsbRecords.findIndex(r => r.id === params.id);
+    const recordIndex = adsbRecords.findIndex(r => r.id === recordId);
     
     if (recordIndex === -1) {
       return NextResponse.json(
@@ -117,7 +119,7 @@ export async function PUT(
     const updatedRecord: ADSB = {
       ...adsbRecords[recordIndex],
       ...body,
-      id: params.id, // Ensure ID doesn't change
+      id: recordId, // Ensure ID doesn't change
       updatedAt: new Date().toISOString()
     };
 
@@ -135,10 +137,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const recordIndex = adsbRecords.findIndex(r => r.id === params.id);
+    const recordId = (await params).id;
+    const recordIndex = adsbRecords.findIndex(r => r.id === recordId);
     
     if (recordIndex === -1) {
       return NextResponse.json(

@@ -3,7 +3,7 @@ import { Personnel } from '@/lib/types';
 
 // Mock data storage (in a real app, this would be a database)
 // This would typically be imported from a shared data source
-let personnelData: Personnel[] = [];
+const personnelData: Personnel[] = [];
 
 // Helper function to calculate certification status
 const calculateCertificationStatus = (expiryDate: string): 'Valid' | 'Expiring Soon' | 'Expired' => {
@@ -33,12 +33,13 @@ const calculateTrainingStatus = (expiryDate?: string, completionDate?: string): 
 // GET /api/personnel/[id]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const personnelId = (await params).id;
     // In a real app, you would fetch from database
     // For now, we'll return a mock response
-    const personnel = personnelData.find(p => p.id === params.id);
+    const personnel = personnelData.find(p => p.id === personnelId);
     
     if (!personnel) {
       return NextResponse.json({ error: 'Personnel not found' }, { status: 404 });
@@ -67,12 +68,13 @@ export async function GET(
 // PUT /api/personnel/[id]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const personnelId = (await params).id;
     const body = await request.json();
     
-    const personnelIndex = personnelData.findIndex(p => p.id === params.id);
+    const personnelIndex = personnelData.findIndex(p => p.id === personnelId);
     
     if (personnelIndex === -1) {
       return NextResponse.json({ error: 'Personnel not found' }, { status: 404 });
@@ -81,7 +83,7 @@ export async function PUT(
     const updatedPersonnel: Personnel = {
       ...personnelData[personnelIndex],
       ...body,
-      id: params.id, // Ensure ID doesn't change
+      id: personnelId, // Ensure ID doesn't change
       updatedAt: new Date().toISOString()
     };
 
@@ -97,10 +99,11 @@ export async function PUT(
 // DELETE /api/personnel/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const personnelIndex = personnelData.findIndex(p => p.id === params.id);
+    const personnelId = (await params).id;
+    const personnelIndex = personnelData.findIndex(p => p.id === personnelId);
     
     if (personnelIndex === -1) {
       return NextResponse.json({ error: 'Personnel not found' }, { status: 404 });

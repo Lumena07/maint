@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Personnel, PersonnelCertification, TrainingRecord } from '@/lib/types';
+import { Personnel } from '@/lib/types';
 
 // Mock data storage (in a real app, this would be a database)
-let personnelData: Personnel[] = [
+const personnelData: Personnel[] = [
   {
     id: '1',
     employeeId: 'EMP001',

@@ -11,7 +11,7 @@ export async function GET() {
     const raw = fs.readFileSync(CACHE_PATH, "utf8");
     const data = JSON.parse(raw);
     return NextResponse.json(data.components || []);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Failed to read components" }, { status: 500 });
   }
 }
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2));
     
     return NextResponse.json(newComponent);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Failed to create component" }, { status: 500 });
   }
 }
@@ -65,7 +65,7 @@ export async function PUT(request: NextRequest) {
     fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2));
     
     return NextResponse.json(updatedComponent);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Failed to update component" }, { status: 500 });
   }
 }
@@ -92,7 +92,7 @@ export async function DELETE(request: NextRequest) {
     fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2));
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Failed to delete component" }, { status: 500 });
   }
 }

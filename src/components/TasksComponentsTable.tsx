@@ -173,7 +173,7 @@ const formatCurrent = (item: MaintenanceTask | Component, aircraft: Aircraft): s
   return results.length > 0 ? results.join(", ") : "N/A";
 };
 
-const formatNextInspection = (item: MaintenanceTask | Component, aircraft: Aircraft) => {
+const formatNextInspection = (item: MaintenanceTask | Component, _aircraft: Aircraft) => {
   if (!item.dueUnits || item.dueUnits.length === 0) return "N/A";
   
   const results: string[] = [];
@@ -355,8 +355,8 @@ export const TasksComponentsTable = ({ aircraft, tasks, components }: TasksCompo
         } else {
           console.error("Failed to calculate projected days");
         }
-      } catch (error) {
-        console.error("Error calculating projected days:", error);
+      } catch (_error) {
+        console.error("Error calculating projected days:", _error);
       }
     };
 
@@ -428,7 +428,7 @@ export const TasksComponentsTable = ({ aircraft, tasks, components }: TasksCompo
         } else {
           alert("Failed to delete item");
         }
-      } catch (error) {
+      } catch (_error) {
         alert("Error deleting item");
       }
     }
@@ -460,7 +460,7 @@ export const TasksComponentsTable = ({ aircraft, tasks, components }: TasksCompo
       } else {
         alert("Failed to save changes");
       }
-    } catch (error) {
+    } catch (_error) {
       alert("Error saving changes");
     }
   };
@@ -491,7 +491,7 @@ export const TasksComponentsTable = ({ aircraft, tasks, components }: TasksCompo
       } else {
         alert("Failed to add item");
       }
-    } catch (error) {
+    } catch (_error) {
       alert("Error adding item");
     }
   };

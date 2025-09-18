@@ -1,4 +1,4 @@
-import { Aircraft, MaintenanceTask, MaintenanceCheck, DueLimit, ComputedDue, DueStatus, ComplianceRecord } from "./types";
+import { Aircraft, MaintenanceTask, DueLimit, ComputedDue, DueStatus, ComplianceRecord } from "./types";
 
 const clampStatus = (limits: DueLimit[]): DueStatus => {
   const hasOverdue = limits.some(l => l.remaining < 0);
@@ -55,26 +55,6 @@ export const inProjectionWindow = (due: ComputedDue, ac: Aircraft, days: number)
   });
 };
 
-export const computeDueForCheck = (check: MaintenanceCheck, ac: Aircraft): ComputedDue => {
-  const limits: DueLimit[] = [];
-  if (check.intervalHrs != null && typeof check.lastDoneHrs === "number") {
-    const nextHrs = check.lastDoneHrs + check.intervalHrs;
-    limits.push({ type: "HOURS", remaining: nextHrs - ac.currentHrs });
-  }
-  if (check.intervalCyc != null && typeof check.lastDoneCyc === "number") {
-    const nextCyc = check.lastDoneCyc + check.intervalCyc;
-    limits.push({ type: "CYCLES", remaining: nextCyc - ac.currentCyc });
-  }
-  if (check.intervalDays != null && check.lastDoneDate) {
-    const last = new Date(check.lastDoneDate);
-    const next = new Date(last.getTime() + check.intervalDays * 86400000);
-    const remDays = Math.ceil((next.getTime() - new Date(ac.currentDate).getTime()) / 86400000);
-    limits.push({ type: "DAYS", remaining: remDays });
-  }
-  const status = clampStatus(limits);
-  const estimatedDays = estimateDaysFromLimits(limits, ac);
-  return { itemId: check.id, title: check.title, limits, status, estimatedDays };
-};
 
 // Estimate days remaining from HOURS/CYCLES limits using average utilization.
 // Rule: if HOURS present, use remainingHours / avgDailyHrs.

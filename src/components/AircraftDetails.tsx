@@ -114,17 +114,17 @@ export const AircraftDetails = ({ aircraft, onAircraftUpdate }: AircraftDetailsP
 
         const fields = fieldMap[editingItem];
         if (fields) {
-          updateData[fields.lastDone] = formData.lastDone || undefined;
+          updateData[fields.lastDone] = formData.lastDone as any;
           
           // Auto-calculate next due for CofA, W&B, Fire Extinguisher, and Standby Compass
           if (editingItem === 'cofa' && formData.lastDone) {
-            updateData[fields.nextDue] = calculateNextDueDate(formData.lastDone, 1);
+            updateData[fields.nextDue] = calculateNextDueDate(formData.lastDone, 1) as any;
           } else if (editingItem === 'wandb' && formData.lastDone) {
-            updateData[fields.nextDue] = calculateNextDueDate(formData.lastDone, 5);
+            updateData[fields.nextDue] = calculateNextDueDate(formData.lastDone, 5) as any;
           } else if ((editingItem === 'fireextinguisher' || editingItem === 'standbycompass') && formData.lastDone) {
-            updateData[fields.nextDue] = calculateNextDueDate(formData.lastDone, 1);
+            updateData[fields.nextDue] = calculateNextDueDate(formData.lastDone, 1) as any;
           } else {
-            updateData[fields.nextDue] = formData.nextDue || undefined;
+            updateData[fields.nextDue] = formData.nextDue as any;
           }
         }
       } else {

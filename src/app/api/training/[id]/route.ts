@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { TrainingRecord } from '@/lib/types';
 
 // Mock data storage (in a real app, this would be a database)
-let trainingData: TrainingRecord[] = [];
+const trainingData: TrainingRecord[] = [];
 
 // Helper function to calculate training status
 const calculateTrainingStatus = (expiryDate?: string, completionDate?: string): 'Valid' | 'Expiring Soon' | 'Expired' | 'Not Completed' => {
@@ -21,10 +21,11 @@ const calculateTrainingStatus = (expiryDate?: string, completionDate?: string): 
 // GET /api/training/[id]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const training = trainingData.find(t => t.id === params.id);
+    const trainingId = (await params).id;
+    const training = trainingData.find(t => t.id === trainingId);
     
     if (!training) {
       return NextResponse.json({ error: 'Training record not found' }, { status: 404 });
@@ -46,12 +47,13 @@ export async function GET(
 // PUT /api/training/[id]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const trainingId = (await params).id;
     const body = await request.json();
     
-    const trainingIndex = trainingData.findIndex(t => t.id === params.id);
+    const trainingIndex = trainingData.findIndex(t => t.id === trainingId);
     
     if (trainingIndex === -1) {
       return NextResponse.json({ error: 'Training record not found' }, { status: 404 });
@@ -60,7 +62,7 @@ export async function PUT(
     const updatedTraining: TrainingRecord = {
       ...trainingData[trainingIndex],
       ...body,
-      id: params.id, // Ensure ID doesn't change
+      id: trainingId, // Ensure ID doesn't change
       updatedAt: new Date().toISOString()
     };
 
@@ -76,10 +78,11 @@ export async function PUT(
 // DELETE /api/training/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const trainingIndex = trainingData.findIndex(t => t.id === params.id);
+    const trainingId = (await params).id;
+    const trainingIndex = trainingData.findIndex(t => t.id === trainingId);
     
     if (trainingIndex === -1) {
       return NextResponse.json({ error: 'Training record not found' }, { status: 404 });

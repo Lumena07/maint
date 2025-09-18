@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { TrainingRecord } from '@/lib/types';
 
 // Mock data storage (in a real app, this would be a database)
-let trainingData: TrainingRecord[] = [
+const trainingData: TrainingRecord[] = [
   {
     id: '1',
     personnelId: '1',

@@ -18,7 +18,7 @@ type TabProps = {
 
 type Tab = "tasks-components" | "hours" | "projections" | "aircraft-details";
 
-export default function AircraftTabs({ aircraft, tasks, compliance, assemblies, components, onAircraftUpdate }: TabProps) {
+export default function AircraftTabs({ aircraft, tasks, assemblies, components, onAircraftUpdate }: TabProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>("tasks-components");
@@ -31,8 +31,8 @@ export default function AircraftTabs({ aircraft, tasks, compliance, assemblies, 
     }
   }, [searchParams]);
 
-  const engines = assemblies.filter(a => a.type === "Engine");
-  const props = assemblies.filter(a => a.type === "Propeller");
+  // const engines = assemblies.filter(a => a.type === "Engine");
+  // const props = assemblies.filter(a => a.type === "Propeller");
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "tasks-components", label: "Tasks/Components" },

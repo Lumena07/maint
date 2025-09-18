@@ -62,8 +62,8 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
           setFlightLogs(data.flightLogs || []);
           setCheckExtensions(data.checkExtensions || []);
         }
-      } catch (error) {
-        console.error("Error loading flight data:", error);
+      } catch (_error) {
+        console.error("Error loading flight data:", _error);
       }
     };
     loadData();
@@ -103,7 +103,7 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
       } else {
         alert("Failed to add flight log entry");
       }
-    } catch (error) {
+    } catch (_error) {
       alert("Error adding flight log entry");
     }
   };

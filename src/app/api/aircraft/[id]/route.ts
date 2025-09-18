@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Aircraft } from "@/lib/types";
 
 // Mock data - in a real app, this would connect to your database
-let mockAircraft: Aircraft[] = [
+const mockAircraft: Aircraft[] = [
   {
     id: "ac-AAC",
     registration: "5H-AAC",
