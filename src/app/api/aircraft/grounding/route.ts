@@ -36,7 +36,12 @@ const writeCache = (data: any): void => {
 };
 
 export async function POST(request: NextRequest) {
+  console.log("Grounding API called with method:", request.method);
+  console.log("Request URL:", request.url);
   try {
+    const requestBody = await request.clone().json();
+    console.log("Request body:", requestBody);
+    console.log("Request body:", await request.clone().json());
     const body = await request.json();
     const { aircraftId, action, record, recordId } = body;
 
@@ -142,6 +147,9 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
+    const requestBody = await request.clone().json();
+    console.log("Request body:", requestBody);
+    console.log("Request body:", await request.clone().json());
     const body = await request.json();
     const { aircraftId, recordId, updates } = body;
 
@@ -198,6 +206,9 @@ export async function PUT(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    const requestBody = await request.clone().json();
+    console.log("Request body:", requestBody);
+    console.log("Request body:", await request.clone().json());
     const { searchParams } = new URL(request.url);
     const aircraftId = searchParams.get('aircraftId');
 
