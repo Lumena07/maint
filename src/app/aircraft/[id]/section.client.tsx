@@ -6,7 +6,6 @@ import { DueList } from "@/components/DueList";
 type Props = {
   aircraft: Aircraft;
   tasks: MaintenanceTask[];
-  
   compliance: ComplianceRecord[];
 };
 
@@ -17,7 +16,7 @@ type Overrides = {
 
 const storageKey = (acId: string) => `maint-overrides-${acId}`;
 
-export default function ClientDueSection({ aircraft, tasks, compliance }: Props) {
+export default function ClientDueSection({ aircraft, tasks,compliance }: Props) {
   const [overrides, setOverrides] = useState<Overrides>({});
   const [records, setRecords] = useState<ComplianceRecord[]>(compliance);
 
