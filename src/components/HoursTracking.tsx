@@ -47,6 +47,7 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
     hoursToCheck: 0,
     isExtension: false
   });
+  const [selectedType, setSelectedType] = useState<'regular' | 'check' | 'extension'>('regular');
 
   const engines = assemblies.filter(a => a.type === "Engine");
   const props = assemblies.filter(a => a.type === "Propeller");
@@ -95,8 +96,9 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
           hoursToCheck: 0,
           isExtension: false
         });
+        setSelectedType('regular');
         setIsAddingFlight(false);
-        // Refresh page to update aircraft hours
+        // Refresh page to update aircraft hours and totals
         window.location.reload();
       } else {
         alert("Failed to add flight log entry");
@@ -127,88 +129,40 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
     return aircraft.currentCyc - (prop.cso || 0);
   };
 
-  // Calculate cumulative values for each flight log entry
-  const calculateCumulativeValues = (log: FlightLog, index: number) => {
-    // Get all flight logs up to and including this one, sorted by date
+  // Calculate individual flight values for each flight log entry
+  const calculateIndividualFlightValues = (log: FlightLog, index: number) => {
+    // Get all flight logs sorted by date
     const sortedLogs = [...flightLogs].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    const logsUpToThis = sortedLogs.slice(0, index + 1);
     
-    // Starting point values from 2025-08-21
-    const startingAircraftHrs = 12101.4; // Aircraft TSN baseline
-    const startingAircraftCyc = 15423; // Aircraft CSN baseline
-    const startingEngineTSN = 2335.3;
-    const startingEngineCSN = 3435;
+    // Starting point values (BEFORE the first flight on 2025-08-21)
+    const startingAircraftHrs = 12097.5; // Aircraft TSN baseline (12101.4 - 3.9)
+    const startingAircraftCyc = 15415; // Aircraft CSN baseline (15423 - 8)
+    const startingEngineTSN = 2331.4; // Engine TSN baseline (2335.3 - 3.9)
+    const startingEngineCSN = 3427; // Engine CSN baseline (3435 - 8)
     const startingEngineTSO = 0;
     const startingEngineCSO = 0;
-    const startingPropTSO = 2335.3;
-    const startingPropTSN = 11244.6;
-    const startingCofAHours = 1345.4;
-    const startingHoursToCheck = 170.8;
+    const startingPropTSO = 2331.4; // Prop TSO baseline (2335.3 - 3.9)
+    const startingPropTSN = 11240.7; // Prop TSN baseline (11244.6 - 3.9)
+    const startingCofAHours = 1341.5; // CofA Hours baseline (1345.4 - 3.9)
+    const startingHoursToCheck = 174.7; // Hours to Check baseline (170.8 + 3.9)
     
-    // For the first entry (2025-08-21), show the baseline values without calculation
-    if (index === 0 && log.date === "2025-08-21") {
-      return {
-        aircraftTSN: startingAircraftHrs.toFixed(1),
-        aircraftCSN: startingAircraftCyc.toString(),
-        engineTSN: startingEngineTSN.toFixed(1),
-        engineCSN: startingEngineCSN.toString(),
-        engineTSO: startingEngineTSO.toFixed(1),
-        engineCSO: startingEngineCSO.toString(),
-        engineOH: (5100 - startingEngineTSN).toFixed(1),
-        propTSN: startingPropTSN.toFixed(1),
-        propTSO: startingPropTSO.toFixed(1),
-        propOH: "664.7",
-        cofaHours: startingCofAHours.toFixed(1),
-        hoursToCheck: startingHoursToCheck.toFixed(1)
-      };
-    }
-    
-    // Calculate cumulative hours and cycles
-    const cumulativeHrs = startingAircraftHrs + logsUpToThis.reduce((sum, l) => sum + l.blockHrs, 0);
-    const cumulativeCyc = startingAircraftCyc + logsUpToThis.reduce((sum, l) => sum + l.cycles, 0);
-    
-    // Calculate CofA Hours (reset to 0 when CofA reset is checked)
-    let cofaHours = startingCofAHours;
-    for (let i = logsUpToThis.length - 1; i >= 0; i--) {
-      if ((logsUpToThis[i] as any).cofaReset) {
-        cofaHours = 0;
-        break;
-      }
-      cofaHours += logsUpToThis[i].blockHrs;
-    }
-    
-    // Calculate hours to check (decreases by flight hours unless extension/check adds hours)
-    let hoursToCheck = startingHoursToCheck;
-    for (const l of logsUpToThis) {
-      // If this entry has hoursToCheck value, it's either an extension or check
-      if ((l as any).hoursToCheck) {
-        if ((l as any).isExtension) {
-          // Extension: previous hours to check - flight hours + extension hours
-          hoursToCheck = hoursToCheck - l.blockHrs + (l as any).hoursToCheck;
-        } else {
-          // Check: replace with check hours (but still subtract flight hours first)
-          hoursToCheck = (l as any).hoursToCheck - l.blockHrs;
-        }
-      } else {
-        // Regular flight: previous hours to check - flight hours
-        hoursToCheck -= l.blockHrs;
-      }
-    }
-    
-    // Calculate values step by step for each flight log entry
+    // Calculate cumulative values up to and including this flight
     let currentAircraftHrs = startingAircraftHrs;
     let currentAircraftCyc = startingAircraftCyc;
     let currentEngineTSN = startingEngineTSN;
     let currentEngineCSN = startingEngineCSN;
     let currentEngineTSO = startingEngineTSO;
     let currentEngineCSO = startingEngineCSO;
-    let currentEngineOH = 2764.7;
+    let currentEngineOH = 2768.6; // Engine OH baseline (2764.7 + 3.9)
     let currentPropTSN = startingPropTSN;
     let currentPropTSO = startingPropTSO;
-    let currentPropOH = 664.7;
+    let currentPropOH = 668.6; // Prop OH baseline (664.7 + 3.9)
+    let currentCofAHours = startingCofAHours;
+    let currentHoursToCheck = startingHoursToCheck;
     
-    // Apply each flight log entry sequentially
-    for (const flightLog of logsUpToThis) {
+    // Apply all flights up to and including the current flight
+    for (let i = 0; i <= index; i++) {
+      const flightLog = sortedLogs[i];
       currentAircraftHrs += flightLog.blockHrs;
       currentAircraftCyc += flightLog.cycles;
       currentEngineTSN += flightLog.blockHrs;
@@ -219,30 +173,42 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
       currentPropTSN += flightLog.blockHrs;
       currentPropTSO += flightLog.blockHrs;
       currentPropOH -= flightLog.blockHrs;
+      
+      // Handle CofA Hours (reset to 0 when CofA reset is checked)
+      if ((flightLog as any).cofaReset) {
+        currentCofAHours = 0;
+      } else {
+        currentCofAHours += flightLog.blockHrs;
+      }
+      
+      // Handle hours to check
+      if ((flightLog as any).hoursToCheck && (flightLog as any).hoursToCheck > 0) {
+        if ((flightLog as any).isExtension) {
+          // Extension: previous hours to check - flight hours + extension hours
+          currentHoursToCheck = currentHoursToCheck - flightLog.blockHrs + (flightLog as any).hoursToCheck;
+        } else {
+          // Check: replace with check hours (hours added becomes the new hours to check)
+          currentHoursToCheck = (flightLog as any).hoursToCheck;
+        }
+      } else {
+        // Regular flight: previous hours to check - flight hours
+        currentHoursToCheck -= flightLog.blockHrs;
+      }
     }
-    
-    const engineTSN = currentEngineTSN;
-    const engineCSN = currentEngineCSN;
-    const engineTSO = currentEngineTSO;
-    const engineCSO = currentEngineCSO;
-    const engineOH = currentEngineOH;
-    const propTSN = currentPropTSN;
-    const propTSO = currentPropTSO;
-    const propOH = currentPropOH;
     
     return {
       aircraftTSN: currentAircraftHrs.toFixed(1),
       aircraftCSN: currentAircraftCyc.toString(),
-      engineTSN: engineTSN.toFixed(1),
-      engineCSN: engineCSN.toString(),
-      engineTSO: engineTSO.toFixed(1),
-      engineCSO: engineCSO.toString(),
-      engineOH: engineOH.toFixed(1),
-      propTSN: propTSN.toFixed(1),
-      propTSO: propTSO.toFixed(1),
-      propOH: propOH.toFixed(1),
-      cofaHours: cofaHours.toFixed(1),
-      hoursToCheck: hoursToCheck.toFixed(1)
+      engineTSN: currentEngineTSN.toFixed(1),
+      engineCSN: currentEngineCSN.toString(),
+      engineTSO: currentEngineTSO.toFixed(1),
+      engineCSO: currentEngineCSO.toString(),
+      engineOH: currentEngineOH.toFixed(1),
+      propTSN: currentPropTSN.toFixed(1),
+      propTSO: currentPropTSO.toFixed(1),
+      propOH: currentPropOH.toFixed(1),
+      CofA_Hours: currentCofAHours.toFixed(1),
+      hoursToCheck: currentHoursToCheck.toFixed(1)
     };
   };
 
@@ -257,7 +223,13 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
             <div className="text-2xl font-mono font-bold text-blue-600">{aircraft.currentHrs.toFixed(1)}h</div>
             <div className="text-sm text-gray-500">{aircraft.currentCyc} cycles</div>
             <div className="text-xs text-gray-400 mt-1">
-              CofA: {(aircraft.cofaHours || 0).toFixed(1)}h / Check: {(aircraft.hoursToCheck || 0).toFixed(1)}h
+              CofA: {((aircraft as any).CofA_Hours || 0).toFixed(1)}h / Check: {(aircraft.hoursToCheck || 0).toFixed(1)}h
+            </div>
+            <div className="text-xs text-gray-400 mt-1">
+              PropOH: {aircraft.propOH?.toFixed(1) || '0.0'}h
+            </div>
+            <div className="text-xs text-gray-400 mt-1">
+              EngineOH: {aircraft.engineOH?.toFixed(1) || '0.0'}h
             </div>
           </div>
           
@@ -325,7 +297,7 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {flightLogs.map((log, index) => {
-                const values = calculateCumulativeValues(log, index);
+                const values = calculateIndividualFlightValues(log, index);
                 return (
                   <tr key={log.id}>
                     <td className="px-4 py-3 text-sm text-gray-900">{log.date}</td>
@@ -341,7 +313,7 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
                         <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
                           Extension
                         </span>
-                      ) : (log as any).hoursToCheck ? (
+                      ) : ((log as any).hoursToCheck && (log as any).hoursToCheck > 0) ? (
                         <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                           Check
                         </span>
@@ -361,7 +333,7 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
                     <td className="px-4 py-3 text-sm text-gray-900">{values.propTSN}</td>
                     <td className="px-4 py-3 text-sm text-gray-900">{values.propTSO}</td>
                     <td className="px-4 py-3 text-sm text-gray-900">{values.propOH}</td>
-                    <td className="px-4 py-3 text-sm text-gray-900">{values.cofaHours}</td>
+                    <td className="px-4 py-3 text-sm text-gray-900">{values.CofA_Hours}</td>
                     <td className="px-4 py-3 text-sm text-gray-900">{values.hoursToCheck}</td>
                   </tr>
                 );
@@ -430,23 +402,24 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Block Hours</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  value={newFlightEntry.blockHrs}
-                  onChange={(e) => setNewFlightEntry(prev => ({ ...prev, blockHrs: parseFloat(e.target.value) || 0 }))}
+                <label className="block text-sm font-medium text-gray-700">Type</label>
+                <select
+                  value={selectedType}
+                  onChange={(e) => {
+                    const value = e.target.value as 'regular' | 'check' | 'extension';
+                    setSelectedType(value);
+                    if (value === "regular") {
+                      setNewFlightEntry(prev => ({ ...prev, isExtension: false, hoursToCheck: 0 }));
+                    } else {
+                      setNewFlightEntry(prev => ({ ...prev, isExtension: value === "extension" }));
+                    }
+                  }}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Cycles (Landings)</label>
-                <input
-                  type="number"
-                  value={newFlightEntry.cycles}
-                  onChange={(e) => setNewFlightEntry(prev => ({ ...prev, cycles: parseInt(e.target.value) || 0 }))}
-                  className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
-                />
+                >
+                  <option value="regular">Regular Flight</option>
+                  <option value="check">Check (replaces hoursToCheck)</option>
+                  <option value="extension">Extension (adds to existing hoursToCheck)</option>
+                </select>
               </div>
               <div className="flex items-center">
                 <input
@@ -460,26 +433,48 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
                   CofA Reset (resets CofA_Hours to 0)
                 </label>
               </div>
+              {(selectedType === 'check' || selectedType === 'extension') && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Add Hours</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={newFlightEntry.hoursToCheck}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const numericValue = value === '' ? 0 : parseFloat(value) || 0;
+                      setNewFlightEntry(prev => ({ ...prev, hoursToCheck: numericValue }));
+                    }}
+                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
+                  />
+                </div>
+              )}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Add Hours</label>
+                <label className="block text-sm font-medium text-gray-700">Block Hours</label>
                 <input
                   type="number"
                   step="0.1"
-                  value={newFlightEntry.hoursToCheck || 0}
-                  onChange={(e) => setNewFlightEntry(prev => ({ ...prev, hoursToCheck: parseFloat(e.target.value) || 0 }))}
+                  value={newFlightEntry.blockHrs}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const numericValue = value === '' ? 0 : parseFloat(value) || 0;
+                    setNewFlightEntry(prev => ({ ...prev, blockHrs: numericValue }));
+                  }}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Type</label>
-                <select
-                  value={newFlightEntry.isExtension ? "extension" : "check"}
-                  onChange={(e) => setNewFlightEntry(prev => ({ ...prev, isExtension: e.target.value === "extension" }))}
+                <label className="block text-sm font-medium text-gray-700">Cycles (Landings)</label>
+                <input
+                  type="number"
+                  value={newFlightEntry.cycles}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const numericValue = value === '' ? 0 : parseInt(value) || 0;
+                    setNewFlightEntry(prev => ({ ...prev, cycles: numericValue }));
+                  }}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
-                >
-                  <option value="check">Check (replaces hoursToCheck)</option>
-                  <option value="extension">Extension (adds to existing hoursToCheck)</option>
-                </select>
+                />
               </div>
             </div>
             <div className="flex justify-end space-x-3 mt-6">

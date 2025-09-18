@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
-import { Aircraft, MaintenanceTask, ComplianceRecord, Assembly, Snag, Component } from "@/lib/types";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Aircraft, MaintenanceTask, ComplianceRecord, Assembly, Component } from "@/lib/types";
 import { Projections } from "@/components/Projections";
-import { SnagsList } from "@/components/SnagsList";
+import { AircraftDetails } from "@/components/AircraftDetails";
 import { TasksComponentsTable } from "@/components/TasksComponentsTable";
 import { HoursTracking } from "@/components/HoursTracking";
 
@@ -10,15 +11,25 @@ type TabProps = {
   aircraft: Aircraft;
   tasks: MaintenanceTask[];
   compliance: ComplianceRecord[];
-  snags: Snag[];
   assemblies: Assembly[];
   components: Component[];
+  onAircraftUpdate?: (updatedAircraft: Aircraft) => void;
 };
 
-type Tab = "tasks-components" | "hours" | "projections" | "snags";
+type Tab = "tasks-components" | "hours" | "projections" | "aircraft-details";
 
-export default function AircraftTabs({ aircraft, tasks, compliance, snags, assemblies, components }: TabProps) {
+export default function AircraftTabs({ aircraft, tasks, compliance, assemblies, components, onAircraftUpdate }: TabProps) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>("tasks-components");
+
+  // Initialize tab from URL parameter
+  useEffect(() => {
+    const tabParam = searchParams.get('tab') as Tab;
+    if (tabParam && ['tasks-components', 'hours', 'projections', 'aircraft-details'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
 
   const engines = assemblies.filter(a => a.type === "Engine");
   const props = assemblies.filter(a => a.type === "Propeller");
@@ -27,17 +38,21 @@ export default function AircraftTabs({ aircraft, tasks, compliance, snags, assem
     { id: "tasks-components", label: "Tasks/Components" },
     { id: "hours", label: "Hours" },
     { id: "projections", label: "Projections" },
-    { id: "snags", label: "Snags" },
+    { id: "aircraft-details", label: "Aircraft Details" },
   ];
 
   const handleTabClick = (tabId: Tab) => {
     setActiveTab(tabId);
+    // Update URL to preserve tab state
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', tabId);
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent, tabId: Tab) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      setActiveTab(tabId);
+      handleTabClick(tabId);
     }
   };
 
@@ -89,17 +104,14 @@ export default function AircraftTabs({ aircraft, tasks, compliance, snags, assem
           <div id="tabpanel-projections" role="tabpanel" aria-labelledby="tab-projections">
             <div className="rounded border border-gray-200 bg-white p-4">
               <h2 className="mb-3 text-lg font-semibold">Projections 30/60/90</h2>
-              <Projections aircraft={aircraft} tasks={tasks} />
+              <Projections aircraft={aircraft} tasks={tasks} components={components} />
             </div>
           </div>
         )}
 
-        {activeTab === "snags" && (
-          <div id="tabpanel-snags" role="tabpanel" aria-labelledby="tab-snags">
-            <div className="rounded border border-gray-200 bg-white p-4">
-              <h2 className="mb-3 text-lg font-semibold">Snags</h2>
-              <SnagsList snags={snags} today={aircraft.currentDate} />
-            </div>
+        {activeTab === "aircraft-details" && (
+          <div id="tabpanel-aircraft-details" role="tabpanel" aria-labelledby="tab-aircraft-details">
+            <AircraftDetails aircraft={aircraft} onAircraftUpdate={onAircraftUpdate} />
           </div>
         )}
       </div>

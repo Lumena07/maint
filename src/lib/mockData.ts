@@ -16,7 +16,25 @@ export const aircraft: Aircraft[] = [
     currentCyc: 5321,
     currentDate: "2025-09-15",
     avgDailyHrs: 3.2,
-    avgDailyCyc: 3.0
+    avgDailyCyc: 3.0,
+    // Monitoring items
+    lastCofA: "2024-09-15",
+    lastCofANextDue: "2025-09-14",
+    lastWandB: "2020-09-15",
+    lastWandBNextDue: "2025-09-14",
+    navdataBaseLastDone: "2024-09-01",
+    navdataBaseNextDue: "2024-10-01",
+    fakLastDone: "2024-08-15",
+    fakNextDue: "2025-08-15",
+    survivalKitLastDone: "2024-07-01",
+    survivalKitNextDue: "2025-07-01",
+    // New tracking items
+    eltBatteryLastDone: "2024-06-15",
+    eltBatteryNextDue: "2025-06-15",
+    fireExtinguisherLastDone: "2024-08-01",
+    fireExtinguisherNextDue: "2025-07-31",
+    standbyCompassLastDone: "2024-07-15",
+    standbyCompassNextDue: "2025-07-14"
   },
   {
     id: "ac-AAG",
@@ -31,7 +49,25 @@ export const aircraft: Aircraft[] = [
     currentCyc: 15820,
     currentDate: "2025-09-15",
     avgDailyHrs: 5.8,
-    avgDailyCyc: 5.0
+    avgDailyCyc: 5.0,
+    // Monitoring items
+    lastCofA: "2024-08-15",
+    lastCofANextDue: "2025-08-14",
+    lastWandB: "2019-08-15",
+    lastWandBNextDue: "2024-08-14",
+    navdataBaseLastDone: "2024-09-10",
+    navdataBaseNextDue: "2024-10-10",
+    fakLastDone: "2024-07-01",
+    fakNextDue: "2025-07-01",
+    survivalKitLastDone: "2024-06-15",
+    survivalKitNextDue: "2025-06-15",
+    // New tracking items
+    eltBatteryLastDone: "2024-05-20",
+    eltBatteryNextDue: "2025-05-20",
+    fireExtinguisherLastDone: "2024-07-10",
+    fireExtinguisherNextDue: "2025-07-09",
+    standbyCompassLastDone: "2024-06-01",
+    standbyCompassNextDue: "2025-05-31"
   }
 ];
 

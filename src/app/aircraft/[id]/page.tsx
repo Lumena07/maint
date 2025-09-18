@@ -1,14 +1,13 @@
 import { notFound } from "next/navigation";
-import { getAircraftById, getTasksForAircraft, getComplianceForAircraft, getSnagsForAircraft, getAssembliesForAircraft, getComponentsForAircraft } from "@/lib/data";
+import { getAircraftById, getTasksForAircraft, getComplianceForAircraft, getAssembliesForAircraft, getComponentsForAircraft } from "@/lib/data";
 import AircraftTabs from "./tabs.client";
 
 export default async function AircraftPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const ac = await getAircraftById(id);
   if (!ac) return notFound();
-  const [tasks, snags, compliance, assemblies, components] = await Promise.all([
+  const [tasks, compliance, assemblies, components] = await Promise.all([
     getTasksForAircraft(ac),
-    getSnagsForAircraft(ac),
     getComplianceForAircraft(ac),
     getAssembliesForAircraft(ac),
     getComponentsForAircraft(ac)
@@ -25,7 +24,6 @@ export default async function AircraftPage({ params }: { params: Promise<{ id: s
         aircraft={ac} 
         tasks={tasks} 
         compliance={compliance} 
-        snags={snags} 
         assemblies={assemblies}
         components={components}
       />

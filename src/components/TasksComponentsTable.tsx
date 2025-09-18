@@ -144,14 +144,18 @@ const formatCurrent = (item: MaintenanceTask | Component, aircraft: Aircraft): s
         const lastDate = new Date(lastDoneDate);
         const nextDate = new Date(lastDate.getTime() + (interval * 24 * 60 * 60 * 1000));
         const currentDate = new Date(aircraft.currentDate);
-        const diffTime = nextDate.getTime() - currentDate.getTime();
-        remaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (!isNaN(lastDate.getTime()) && !isNaN(nextDate.getTime()) && !isNaN(currentDate.getTime())) {
+          const diffTime = nextDate.getTime() - currentDate.getTime();
+          remaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
       } else if (interval) {
         // No installation data, use initial interval
         const currentDate = new Date(aircraft.currentDate);
         const nextDate = new Date(currentDate.getTime() + (interval * 24 * 60 * 60 * 1000));
-        const diffTime = nextDate.getTime() - currentDate.getTime();
-        remaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (!isNaN(currentDate.getTime()) && !isNaN(nextDate.getTime())) {
+          const diffTime = nextDate.getTime() - currentDate.getTime();
+          remaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
       }
     }
     
@@ -161,7 +165,7 @@ const formatCurrent = (item: MaintenanceTask | Component, aircraft: Aircraft): s
       } else if (unit === "CYCLES") {
         results.push(`${remaining}c`);
       } else if (unit === "DAYS") {
-        results.push(`${remaining}d`);
+        results.push(`${isNaN(remaining) ? 'N/A' : remaining}d`);
       }
     }
   });

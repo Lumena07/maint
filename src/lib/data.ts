@@ -1,4 +1,4 @@
-import { Aircraft, MaintenanceTask, Snag, Assembly, ComplianceRecord, Component } from "./types";
+import { Aircraft, MaintenanceTask, Assembly, ComplianceRecord, Component } from "./types";
 import fs from "fs";
 import path from "path";
 
@@ -32,7 +32,6 @@ const seededTasks: MaintenanceTask[] = [
 ];
 
 const seededAssemblies: Assembly[] = [];
-const seededSnags: Snag[] = [];
 const seededCompliance: ComplianceRecord[] = [];
 const seededComponents: Component[] = [];
 
@@ -91,7 +90,9 @@ export async function getAircraftList(): Promise<Aircraft[]> {
 }
 
 export async function getAircraftById(id: string): Promise<Aircraft | undefined> {
-  const list = await getAircraftList();
+  // Load from cache
+  await loadCacheIfAvailable();
+  const list = cacheAircraft.length > 0 ? cacheAircraft : seededAircraft;
   return list.find(a => a.id === id);
 }
 
@@ -103,9 +104,6 @@ export async function getTasksForAircraft(ac: Aircraft): Promise<MaintenanceTask
 
 
 
-export async function getSnagsForAircraft(ac: Aircraft): Promise<Snag[]> {
-  return seededSnags.filter(s => s.aircraftId === ac.id);
-}
 
 export async function getAssembliesForAircraft(ac: Aircraft): Promise<Assembly[]> {
   return seededAssemblies.filter(a => a.aircraftId === ac.id);
