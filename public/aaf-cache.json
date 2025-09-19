@@ -9,23 +9,23 @@
       "base": "HKJK",
       "deliveryDate": "2018-06-01",
       "inServiceDate": "2018-07-01",
-      "currentHrs": 12204.899999999996,
-      "currentCyc": 15602,
+      "currentHrs": 12214.999999999996,
+      "currentCyc": 15621,
       "currentDate": "2025-09-18",
       "avgDailyHrs": 7,
       "avgDailyCyc": 6,
-      "engineTSN": 2438.800000000001,
-      "engineCSN": 3614,
+      "engineTSN": 2448.900000000001,
+      "engineCSN": 3633,
       "engineTSO": 0,
       "engineCSO": 0,
-      "engineOH": 2661.199999999999,
+      "engineOH": 2651.099999999999,
       "propTSO": 2335.3,
-      "propTSN": 11348.099999999997,
-      "propOH": 561.2000000000003,
+      "propTSN": 11358.199999999997,
+      "propOH": 551.1000000000003,
       "EngineTBO": 5100,
       "PropTBO": 3000,
-      "CofA_Hours": 2.4,
-      "hoursToCheck": 217.6,
+      "CofA_Hours": 7.6,
+      "hoursToCheck": 212.4,
       "yearOfManufacture": 1954,
       "serialNumber": "208B-5943",
       "manufacturer": "CESSNA",
@@ -80,8 +80,8 @@
       "position": "C",
       "model": "PT6A-140",
       "serial": "5102",
-      "tsnHrs": 12204.899999999996,
-      "csn": 15602,
+      "tsnHrs": 12214.999999999996,
+      "csn": 15621,
       "registration": "5H-AAF",
       "partNumber": "PT6A-140",
       "manufacturer": "Pratt & Whitney Canada"
@@ -93,8 +93,8 @@
       "position": "C",
       "model": "HC-B3TN-3F",
       "serial": "BUA33215",
-      "tsnHrs": 12204.899999999996,
-      "csn": 15602,
+      "tsnHrs": 12214.999999999996,
+      "csn": 15621,
       "registration": "5H-AAF",
       "partNumber": "HC-B3TN-3F",
       "manufacturer": "Hartzell"
@@ -115,7 +115,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "EMM 72-00-00 Pg 620-629",
       "sourceDoc": "c208Template.item07",
-      "projectedDays": 39.700000000000465
+      "projectedDays": 38.25714285714327
     },
     {
       "id": "task-C208-29-engine-oil-filter",
@@ -130,7 +130,7 @@
       "lastDoneHrs": 11671.4,
       "reference": "EMM 72-00-00 Table 601",
       "sourceDoc": "c208Template.item29",
-      "projectedDays": 66.64285714285766
+      "projectedDays": 65.20000000000047
     },
     {
       "id": "task-C208-03-battery-capacity-concorde",
@@ -180,7 +180,7 @@
       ],
       "reference": "SID 57-20-03",
       "sourceDoc": "c208Template.item08",
-      "projectedDays": 1113.5857142857149
+      "projectedDays": 1112.1428571428576
     },
     {
       "id": "task-C208-09-chip-detector-check",
@@ -220,7 +220,7 @@
       "lastDoneDate": "2025-03-21",
       "lastDoneHrs": 11671.4,
       "sourceDoc": "c208Template.item14",
-      "projectedDays": 209.5000000000005
+      "projectedDays": 208.05714285714333
     },
     {
       "id": "task-C208-14-engine-limits",
@@ -238,7 +238,7 @@
       "lastDoneHrs": 9766.1,
       "sn": "PCE-VA0925",
       "sourceDoc": "c208Template.item14",
-      "projectedDays": 380.1714285714292
+      "projectedDays": 378.728571428572
     },
     {
       "id": "task-C208-22-ct-blades-3076601-01",
@@ -264,7 +264,7 @@
       "lastDoneHrs": 11671.4,
       "reference": "EMM 72-00-00",
       "sourceDoc": "c208Template.item28",
-      "projectedDays": 9.50000000000052
+      "projectedDays": 8.057142857143324
     },
     {
       "id": "task-C208-40-fuel-inlet-screen",
@@ -308,7 +308,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "EMM 73-10-05 Pg 211-226",
       "sourceDoc": "c208Template.item42",
-      "projectedDays": 39.700000000000465
+      "projectedDays": 38.25714285714327
     },
     {
       "id": "task-C208-30-filter-p3-air",
@@ -323,7 +323,7 @@
       "lastDoneHrs": 11671.4,
       "reference": "EMM 72-00-00",
       "sourceDoc": "c208Template.item30",
-      "projectedDays": 66.64285714285766
+      "projectedDays": 65.20000000000047
     },
     {
       "id": "task-C208-31-filter-vacuum-relief",
@@ -338,7 +338,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "Parker Haniffin S/Letter 59B",
       "sourceDoc": "c208Template.item31",
-      "projectedDays": 39.700000000000465
+      "projectedDays": 38.25714285714327
     },
     {
       "id": "task-C208-32-filter-vacuum-central",
@@ -353,7 +353,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "Parker Haniffin S/Letter 59B",
       "sourceDoc": "c208Template.item32",
-      "projectedDays": 39.700000000000465
+      "projectedDays": 38.25714285714327
     },
     {
       "id": "task-C208-33-fork-end-bolt",
@@ -383,7 +383,7 @@
       "lastDoneCyc": 0,
       "reference": "MM 5-11-00, 2B (5)",
       "sourceDoc": "c208Template.item37",
-      "projectedDays": 4066.3333333333335
+      "projectedDays": 4063.1666666666665
     },
     {
       "id": "task-C208-38-flap-bellcrank-2622311-7",
@@ -399,7 +399,7 @@
       "lastDoneCyc": 10064,
       "reference": "MM 5-11-00, 2B (6) & (7)",
       "sourceDoc": "c208Template.item38",
-      "projectedDays": 743.6666666666666
+      "projectedDays": 740.5
     },
     {
       "id": "task-C208-36-generator-3040760",
@@ -568,7 +568,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "ID 5-15-06",
       "sourceDoc": "c208Template.item57",
-      "projectedDays": 11.128571428571897
+      "projectedDays": 9.6857142857147
     },
     {
       "id": "task-C208-58-inspection-doc-07",
@@ -585,7 +585,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "ID 5-15-07",
       "sourceDoc": "c208Template.item58",
-      "projectedDays": 39.700000000000465
+      "projectedDays": 38.25714285714327
     },
     {
       "id": "task-C208-59-inspection-doc-08",
@@ -602,7 +602,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "5-15-08",
       "sourceDoc": "c208Template.item59",
-      "projectedDays": 39.700000000000465
+      "projectedDays": 38.25714285714327
     },
     {
       "id": "task-C208-60-inspection-doc-09",
@@ -619,7 +619,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "5-15-09",
       "sourceDoc": "c208Template.item60",
-      "projectedDays": 96.84285714285761
+      "projectedDays": 95.40000000000042
     },
     {
       "id": "task-C208-61-inspection-doc-10",
@@ -636,7 +636,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "5-15-10",
       "sourceDoc": "c208Template.item61",
-      "projectedDays": 96.84285714285761
+      "projectedDays": 95.40000000000042
     },
     {
       "id": "task-C208-62-inspection-doc-11",
@@ -653,7 +653,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "5-15-11",
       "sourceDoc": "c208Template.item62",
-      "projectedDays": 211.1285714285719
+      "projectedDays": 209.6857142857147
     },
     {
       "id": "task-C208-63-inspection-doc-12",
@@ -670,7 +670,7 @@
       "lastDoneHrs": 10941.4,
       "reference": "5-15-12",
       "sourceDoc": "c208Template.item63",
-      "projectedDays": 48.07142857142909
+      "projectedDays": 46.628571428571895
     },
     {
       "id": "task-C208-64-inspection-doc-13",
@@ -687,7 +687,7 @@
       "lastDoneHrs": 10941.4,
       "reference": "5-15-13",
       "sourceDoc": "c208Template.item64",
-      "projectedDays": 276.6428571428577
+      "projectedDays": 275.20000000000044
     },
     {
       "id": "task-C208-65-inspection-doc-14",
@@ -704,7 +704,7 @@
       "lastDoneHrs": 10941.4,
       "reference": "5-15-14",
       "sourceDoc": "c208Template.item65",
-      "projectedDays": 276.6428571428577
+      "projectedDays": 275.20000000000044
     },
     {
       "id": "task-C208-66-inspection-doc-15",
@@ -721,7 +721,7 @@
       "lastDoneHrs": 10941.4,
       "reference": "5-15-15",
       "sourceDoc": "c208Template.item66",
-      "projectedDays": 733.785714285715
+      "projectedDays": 732.3428571428578
     },
     {
       "id": "task-C208-67-inspection-doc-16",
@@ -738,7 +738,7 @@
       "lastDoneHrs": 10941.4,
       "reference": "5-15-16",
       "sourceDoc": "c208Template.item67",
-      "projectedDays": 733.785714285715
+      "projectedDays": 732.3428571428578
     },
     {
       "id": "task-C208-68-inspection-doc-17",
@@ -859,7 +859,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "5-15-24, CAB-32-02",
       "sourceDoc": "c208Template.item75",
-      "projectedDays": 11.128571428571897
+      "projectedDays": 9.6857142857147
     },
     {
       "id": "task-C208-76-inspection-doc-25",
@@ -892,7 +892,7 @@
       "lastDoneHrs": 11671.4,
       "reference": "SID 71-20-01",
       "sourceDoc": "c208Template.item77",
-      "projectedDays": 38.07142857142909
+      "projectedDays": 36.628571428571895
     },
     {
       "id": "task-C208-78-inspection-doc-ma",
@@ -936,7 +936,7 @@
       "lastDoneCyc": 14716,
       "reference": "SID 57-50-01",
       "sourceDoc": "c208Template.item80",
-      "projectedDays": 352.3333333333333
+      "projectedDays": 349.1666666666667
     },
     {
       "id": "task-C208-81-inspection-doc-me",
@@ -952,7 +952,7 @@
       "lastDoneHrs": 12082.8,
       "reference": "ID 5-15-ME",
       "sourceDoc": "c208Template.item81",
-      "projectedDays": 496.8428571428576
+      "projectedDays": 495.40000000000043
     },
     {
       "id": "task-C208-82-inspection-doc-mf",
@@ -984,7 +984,7 @@
       "lastDoneHrs": 11671,
       "reference": "SID 53-20-07",
       "sourceDoc": "c208Template.item83",
-      "projectedDays": 95.15714285714343
+      "projectedDays": 93.71428571428623
     },
     {
       "id": "task-C208-84-inspection-doc-mh",
@@ -998,7 +998,9 @@
       ],
       "reference": "SID 53-20-07",
       "sourceDoc": "c208Template.item84",
-      "projectedDays": 0
+      "projectedDays": 355.0000000000005,
+      "lastDoneDate": "2025-09-18",
+      "lastDoneHrs": 12200
     },
     {
       "id": "task-C208-85-inspection-doc-mi",
@@ -1040,7 +1042,7 @@
       ],
       "reference": "SID 57-60-02",
       "sourceDoc": "c208Template.item87",
-      "projectedDays": 1113.5857142857149
+      "projectedDays": 1112.1428571428576
     },
     {
       "id": "task-C208-88-inspection-doc-ml",
@@ -1054,7 +1056,7 @@
       ],
       "reference": "SID 57-60-02",
       "sourceDoc": "c208Template.item88",
-      "projectedDays": 1113.5857142857149
+      "projectedDays": 1112.1428571428576
     }
   ],
   "components": [
@@ -1079,7 +1081,7 @@
       "csoAtInstallation": 0,
       "initialIntervalCyc": 16000,
       "repeatIntervalCyc": null,
-      "projectedDays": 2064.3333333333335
+      "projectedDays": 2061.1666666666665
     },
     {
       "id": "comp-C208-mlg-axle-lh-2034-1",
@@ -1098,7 +1100,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item01",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-rh-2035-1",
@@ -1117,7 +1119,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item02",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-elev-aft-pushrod-2634027-1",
@@ -1136,7 +1138,7 @@
       ],
       "initialIntervalCyc": 40000,
       "sourceDoc": "c208Template.item10",
-      "projectedDays": 4066.3333333333335
+      "projectedDays": 4063.1666666666665
     },
     {
       "id": "comp-C208-elev-fwd-pushrod-2613440-multi",
@@ -1170,7 +1172,7 @@
       ],
       "initialIntervalCyc": 40000,
       "sourceDoc": "c208Template.item12",
-      "projectedDays": 4066.3333333333335
+      "projectedDays": 4063.1666666666665
     },
     {
       "id": "comp-C208-stub-shaft-comp-30550000-01",
@@ -1189,7 +1191,7 @@
       ],
       "initialIntervalCyc": 29000,
       "sourceDoc": "c208Template.item15",
-      "projectedDays": 4231
+      "projectedDays": 4227.833333333333
     },
     {
       "id": "comp-C208-rotor-compressor-3076420-01",
@@ -1208,7 +1210,7 @@
       ],
       "initialIntervalCyc": 29000,
       "sourceDoc": "c208Template.item16",
-      "projectedDays": 4231
+      "projectedDays": 4227.833333333333
     },
     {
       "id": "comp-C208-comp-disk-2nd-3040312",
@@ -1227,7 +1229,7 @@
       ],
       "initialIntervalCyc": 29000,
       "sourceDoc": "c208Template.item17",
-      "projectedDays": 4231
+      "projectedDays": 4227.833333333333
     },
     {
       "id": "comp-C208-comp-disk-3rd-3040213",
@@ -1246,7 +1248,7 @@
       ],
       "initialIntervalCyc": 29000,
       "sourceDoc": "c208Template.item18",
-      "projectedDays": 4231
+      "projectedDays": 4227.833333333333
     },
     {
       "id": "comp-C208-impeller-3079808-01",
@@ -1265,7 +1267,7 @@
       ],
       "initialIntervalCyc": 29000,
       "sourceDoc": "c208Template.item19",
-      "projectedDays": 4231
+      "projectedDays": 4227.833333333333
     },
     {
       "id": "comp-C208-ct-disk-3076856-01-2",
@@ -1284,7 +1286,7 @@
       ],
       "initialIntervalCyc": 16000,
       "sourceDoc": "c208Template.item20",
-      "projectedDays": 2064.3333333333335
+      "projectedDays": 2061.1666666666665
     },
     {
       "id": "comp-C208-pt-disk-3076855-01",
@@ -1303,7 +1305,7 @@
       ],
       "initialIntervalCyc": 16000,
       "sourceDoc": "c208Template.item21",
-      "projectedDays": 2064.3333333333335
+      "projectedDays": 2061.1666666666665
     },
     {
       "id": "comp-C208-ignition-exciter-3043937-06",
@@ -1322,7 +1324,7 @@
       ],
       "initialIntervalHrs": 5600,
       "sourceDoc": "c208Template.item23",
-      "projectedDays": 451.60000000000065
+      "projectedDays": 450.1571428571434
     },
     {
       "id": "comp-C208-fcu-3076428-03",
@@ -1341,7 +1343,7 @@
       ],
       "initialIntervalHrs": 5600,
       "sourceDoc": "c208Template.item24",
-      "projectedDays": 451.60000000000065
+      "projectedDays": 450.1571428571434
     },
     {
       "id": "comp-C208-fuel-heater-3076422-05",
@@ -1360,7 +1362,7 @@
       ],
       "initialIntervalHrs": 5600,
       "sourceDoc": "c208Template.item25",
-      "projectedDays": 451.60000000000065
+      "projectedDays": 450.1571428571434
     },
     {
       "id": "comp-C208-flow-divider-3023670",
@@ -1379,7 +1381,7 @@
       ],
       "initialIntervalHrs": 5600,
       "sourceDoc": "c208Template.item26",
-      "projectedDays": 451.60000000000065
+      "projectedDays": 450.1571428571434
     },
     {
       "id": "comp-C208-fuel-pump-3040760",
@@ -1398,7 +1400,7 @@
       ],
       "initialIntervalHrs": 5600,
       "sourceDoc": "c208Template.item27",
-      "projectedDays": 451.60000000000065
+      "projectedDays": 450.1571428571434
     },
     {
       "id": "comp-C208-prop-gov-3074154-01",
@@ -1417,7 +1419,7 @@
       ],
       "initialIntervalHrs": 5100,
       "sourceDoc": "c208Template.item43",
-      "projectedDays": 380.1714285714292
+      "projectedDays": 378.728571428572
     },
     {
       "id": "comp-C208-prop-gov-os-3079150-01",
@@ -1436,7 +1438,7 @@
       ],
       "initialIntervalHrs": 5100,
       "sourceDoc": "c208Template.item44",
-      "projectedDays": 380.1714285714292
+      "projectedDays": 378.728571428572
     },
     {
       "id": "comp-C208-mlg-attach-pin-lh-2641008-2",
@@ -1455,7 +1457,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item89",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-attach-pin-rh-2641008-2",
@@ -1474,7 +1476,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item90",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-fitting-lh-2641010-20",
@@ -1493,7 +1495,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item91",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-fitting-rh-2641013-50",
@@ -1512,7 +1514,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item92",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-fitting-lh-2641010-21",
@@ -1531,7 +1533,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item93",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-fitting-rh-2641013-17",
@@ -1550,7 +1552,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item94",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-fitting-lh-2641010-22",
@@ -1569,7 +1571,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item95",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-fitting-rh-2641013-18",
@@ -1588,7 +1590,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item96",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-fitting-lh-2641010-23",
@@ -1607,7 +1609,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item97",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-mlg-axle-fitting-rh-2641013-19",
@@ -1626,7 +1628,7 @@
       ],
       "initialIntervalCyc": 31500,
       "sourceDoc": "c208Template.item98",
-      "projectedDays": 2649.6666666666665
+      "projectedDays": 2646.5
     },
     {
       "id": "comp-C208-fuel-hoses-s2495",
@@ -1992,6 +1994,100 @@
       "propTSN": 11348.099999999997,
       "propTSO": 2331.4,
       "propOH": 561.2000000000003
+    },
+    {
+      "id": "fl-ac-AAF-1758201893022",
+      "aircraftId": "ac-AAF",
+      "date": "2025-09-18",
+      "blockHrs": 2.5,
+      "cycles": 9,
+      "from": "",
+      "to": "",
+      "techlogNumber": "990076",
+      "engineTSN": 2441.300000000001,
+      "engineCSN": 3623,
+      "engineTSO": 0,
+      "engineCSO": 0,
+      "engineOH": 2658.699999999999,
+      "propTSN": 11350.599999999997,
+      "propTSO": 2331.4,
+      "propOH": 558.7000000000003
+    },
+    {
+      "id": "fl-ac-AAF-1758201996227",
+      "aircraftId": "ac-AAF",
+      "date": "2025-09-18",
+      "blockHrs": 0,
+      "cycles": 0,
+      "from": "",
+      "to": "",
+      "techlogNumber": "990077",
+      "hoursToCheck": 200,
+      "engineTSN": 2441.300000000001,
+      "engineCSN": 3623,
+      "engineTSO": 0,
+      "engineCSO": 0,
+      "engineOH": 2658.699999999999,
+      "propTSN": 11350.599999999997,
+      "propTSO": 2331.4,
+      "propOH": 558.7000000000003
+    },
+    {
+      "id": "fl-ac-AAF-1758202052161",
+      "aircraftId": "ac-AAF",
+      "date": "2025-09-18",
+      "blockHrs": 0,
+      "cycles": 0,
+      "from": "",
+      "to": "",
+      "techlogNumber": "990080",
+      "hoursToCheck": 20,
+      "isExtension": true,
+      "engineTSN": 2441.300000000001,
+      "engineCSN": 3623,
+      "engineTSO": 0,
+      "engineCSO": 0,
+      "engineOH": 2658.699999999999,
+      "propTSN": 11350.599999999997,
+      "propTSO": 2331.4,
+      "propOH": 558.7000000000003
+    },
+    {
+      "id": "fl-ac-AAF-1758202285237",
+      "aircraftId": "ac-AAF",
+      "date": "2025-09-18",
+      "blockHrs": 0,
+      "cycles": 0,
+      "from": "",
+      "to": "",
+      "techlogNumber": "990081",
+      "cofaReset": true,
+      "engineTSN": 2441.300000000001,
+      "engineCSN": 3623,
+      "engineTSO": 0,
+      "engineCSO": 0,
+      "engineOH": 2658.699999999999,
+      "propTSN": 11350.599999999997,
+      "propTSO": 2331.4,
+      "propOH": 558.7000000000003
+    },
+    {
+      "id": "fl-ac-AAF-1758202933504",
+      "aircraftId": "ac-AAF",
+      "date": "2025-09-18",
+      "blockHrs": 7.6,
+      "cycles": 10,
+      "from": "",
+      "to": "",
+      "techlogNumber": "80092",
+      "engineTSN": 2448.900000000001,
+      "engineCSN": 3633,
+      "engineTSO": 0,
+      "engineCSO": 0,
+      "engineOH": 2651.099999999999,
+      "propTSN": 11358.199999999997,
+      "propTSO": 2331.4,
+      "propOH": 551.1000000000003
     }
   ],
   "snags": [
