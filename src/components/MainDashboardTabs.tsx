@@ -766,7 +766,7 @@ export const MainDashboardTabs = ({ aircraft }: MainDashboardTabsProps) => {
                     {snags.length === 0 ? (
                       <tr>
                         <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
-                          No snags found. Click "Add New Snag" to create one.
+                          No snags found. Click No snags found. Click "Add New Snag" to create one.quot;Add New SnagNo snags found. Click "Add New Snag" to create one.quot; to create one.
                         </td>
                       </tr>
                     ) : (
@@ -905,7 +905,7 @@ export const MainDashboardTabs = ({ aircraft }: MainDashboardTabsProps) => {
                     {adsbRecords.length === 0 ? (
                       <tr>
                         <td colSpan={9} className="px-6 py-4 text-center text-gray-500">
-                          No AD/SB records found. Click "Add AD/SB" to create one.
+                          No AD/SB records found. Click No AD/SB records found. Click "Add AD/SB" to create one.quot;Add AD/SBNo AD/SB records found. Click "Add AD/SB" to create one.quot; to create one.
                         </td>
                       </tr>
                     ) : (
@@ -1046,7 +1046,7 @@ export const MainDashboardTabs = ({ aircraft }: MainDashboardTabsProps) => {
                     {addRecords.length === 0 ? (
                       <tr>
                         <td colSpan={9} className="px-6 py-4 text-center text-gray-500">
-                          No ADD records found. Click "Add ADD" to create one.
+                          No ADD records found. Click No ADD records found. Click "Add ADD" to create one.quot;Add ADDNo ADD records found. Click "Add ADD" to create one.quot; to create one.
                         </td>
                       </tr>
                     ) : (
@@ -1532,7 +1532,7 @@ export const MainDashboardTabs = ({ aircraft }: MainDashboardTabsProps) => {
                       <option value="Superseded">Superseded</option>
                     </select>
                     <p className="text-xs text-gray-500 mt-1">
-                      "Due Soon" and "Overdue" are calculated automatically based on due date
+                      "Due Soon" and "Overdue" are calculated automatically based on due datequot;Due Soon"Due Soon" and "Overdue" are calculated automatically based on due datequot; and "Due Soon" and "Overdue" are calculated automatically based on due datequot;Overdue"Due Soon" and "Overdue" are calculated automatically based on due datequot; are calculated automatically based on due date
                     </p>
                   </div>
 

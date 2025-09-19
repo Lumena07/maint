@@ -11,7 +11,7 @@ export async function GET() {
     const raw = fs.readFileSync(CACHE_PATH, "utf8");
     const data = JSON.parse(raw);
     return NextResponse.json(data.tasks || []);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Failed to read tasks" }, { status: 500 });
   }
 }
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2));
     
     return NextResponse.json(newTask);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Failed to create task" }, { status: 500 });
   }
 }
@@ -65,7 +65,7 @@ export async function PUT(request: NextRequest) {
     fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2));
     
     return NextResponse.json(updatedTask);
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Failed to update task" }, { status: 500 });
   }
 }
@@ -92,7 +92,7 @@ export async function DELETE(request: NextRequest) {
     fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2));
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: "Failed to delete task" }, { status: 500 });
   }
 } 

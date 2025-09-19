@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Personnel, PersonnelRole, PersonnelStatus, TrainingRecord, TrainingType, TrainingStatus, PersonnelCertification, CertificationStatus } from "@/lib/types";
 
 interface PersonnelTrackingProps {
-  // Add any props if needed
+  // Props can be added here as needed
 }
 
 export const PersonnelTracking = ({}: PersonnelTrackingProps) => {
@@ -361,7 +361,7 @@ export const PersonnelTracking = ({}: PersonnelTrackingProps) => {
               {personnel.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
-                    No personnel records found. Click "Add Personnel" to create one.
+                    No personnel records found. Click No personnel records found. Click "Add Personnel" to create one.quot;Add PersonnelNo personnel records found. Click "Add Personnel" to create one.quot; to create one.
                   </td>
                 </tr>
               ) : (
@@ -440,7 +440,7 @@ export const PersonnelTracking = ({}: PersonnelTrackingProps) => {
               {trainingRecords.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
-                    No training records found. Click "Add Training Record" to create one.
+                    No training records found. Click No training records found. Click "Add Training Record" to create one.quot;Add Training RecordNo training records found. Click "Add Training Record" to create one.quot; to create one.
                   </td>
                 </tr>
               ) : (

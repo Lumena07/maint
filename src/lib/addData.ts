@@ -2,7 +2,7 @@ import { ADD } from './types';
 
 // Shared mock data storage for ADD records
 // In a real app, this would be a database
-export let addRecords: ADD[] = [
+export const addRecords: ADD[] = [
   {
     id: '1',
     addNumber: 'ADD-2024-001',

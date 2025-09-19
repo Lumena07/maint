@@ -29,10 +29,11 @@ const calculateExpiryDate = (reportedDate: string, deferralPeriod: number): stri
 // GET /api/add/[id]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const addRecord = addRecords.find(add => add.id === params.id);
+    const resolvedParams = await params;
+    const addRecord = addRecords.find(add => add.id === resolvedParams.id);
     
     if (!addRecord) {
       return NextResponse.json({ error: 'ADD record not found' }, { status: 404 });
@@ -48,12 +49,13 @@ export async function GET(
 // PUT /api/add/[id]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json();
     
-    const addIndex = addRecords.findIndex(add => add.id === params.id);
+    const addId = (await params).id;
+    const addIndex = addRecords.findIndex(add => add.id === addId);
     
     if (addIndex === -1) {
       return NextResponse.json({ error: 'ADD record not found' }, { status: 404 });
@@ -107,10 +109,11 @@ export async function PUT(
 // DELETE /api/add/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const addIndex = addRecords.findIndex(add => add.id === params.id);
+    const addId = (await params).id;
+    const addIndex = addRecords.findIndex(add => add.id === addId);
     
     if (addIndex === -1) {
       return NextResponse.json({ error: 'ADD record not found' }, { status: 404 });

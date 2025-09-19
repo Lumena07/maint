@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ADSB, ADSBStatus, ADSBPriority, ADSBType } from '@/lib/types';
 
 // Mock data storage - in a real app, this would be a database
-let adsbRecords: ADSB[] = [
+const adsbRecords: ADSB[] = [
   {
     id: '1',
     documentNumber: 'AD-2024-001',

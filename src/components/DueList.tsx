@@ -1,20 +1,18 @@
 "use client";
-import { Aircraft, MaintenanceTask, MaintenanceCheck, ComplianceRecord } from "@/lib/types";
-import { computeDueForTask, computeDueForCheck } from "@/lib/due";
+import { Aircraft, MaintenanceTask, ComplianceRecord } from "@/lib/types";
+import { computeDueForTask } from "@/lib/due";
 
-export const DueList = ({ aircraft, tasks, checks, compliance, onMarkDone }: { aircraft: Aircraft; tasks: MaintenanceTask[]; checks?: MaintenanceCheck[]; compliance?: ComplianceRecord[]; onMarkDone?: (itemId: string, type: "task" | "check") => void }) => {
-  const checkMap = new Map<string, MaintenanceCheck>();
-  (checks || []).forEach(c => checkMap.set(c.id, c));
+export const DueList = ({ aircraft, tasks, compliance, onMarkDone }: { aircraft: Aircraft; tasks: MaintenanceTask[]; compliance?: ComplianceRecord[]; onMarkDone?: (itemId: string, type: "task" | "check") => void }) => {
+  
+  
 
   const visibleTasks = tasks.filter(t => !t.checkId);
   const taskRows = visibleTasks
     .map(task => ({ id: task.id, title: task.title, type: task.type, ref: task.reference, sourceDoc: task.sourceDoc, due: computeDueForTask(task, aircraft, compliance) }))
     .filter(row => row.due.limits.length > 0);
 
-  const checkRows = (checks || [])
-    .map(ch => ({ id: ch.id, title: ch.title, type: "Check", ref: ch.reference, sourceDoc: undefined as string | undefined, due: computeDueForCheck(ch, aircraft) }));
 
-  const rows = [...checkRows, ...taskRows].sort((a, b) => {
+  const rows = taskRows.sort((a, b) => {
     const aMin = Math.min(...a.due.limits.map(l => l.remaining));
     const bMin = Math.min(...b.due.limits.map(l => l.remaining));
     return aMin - bMin;

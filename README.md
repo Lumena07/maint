@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sky Maintenance
 
-## Getting Started
+A comprehensive aircraft maintenance management system built with Next.js, designed to streamline maintenance operations, track aircraft status, and manage compliance requirements.
 
-First, run the development server:
+## ✈️ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Aircraft Management
+- **Aircraft Registry**: Complete aircraft information including registration, type, serial numbers, and specifications
+- **Status Tracking**: Real-time aircraft status monitoring (In Service, Grounded, Maintenance)
+- **Hours & Cycles**: Track flight hours, engine time, and cycle counts
+- **Maintenance Scheduling**: Automated maintenance due date calculations
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Maintenance Operations
+- **Task Management**: Comprehensive task tracking and scheduling
+- **Component Tracking**: Monitor individual aircraft components and their maintenance status
+- **Due Lists**: Automated generation of maintenance due items
+- **Projections**: Calculate future maintenance requirements based on usage patterns
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Compliance & Documentation
+- **CofA Management**: Certificate of Airworthiness tracking and renewal
+- **Weight & Balance**: Track and schedule weight and balance inspections
+- **Navigation Data**: Monitor navigation database updates
+- **Survival Equipment**: Track survival kit and fire extinguisher maintenance
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Grounding Management
+- **Grounding Records**: Track aircraft grounding events and reasons
+- **Spare Parts**: Monitor spare parts requirements and orders
+- **Ungrounding**: Plan and track aircraft return to service
 
-## Learn More
+### Personnel & Training
+- **Personnel Tracking**: Manage maintenance personnel information
+- **Training Records**: Track certifications and training requirements
+- **Compliance**: Monitor personnel compliance with regulatory requirements
 
-To learn more about Next.js, take a look at the following resources:
+### Additional Features
+- **Snag Management**: Track and manage aircraft defects and issues
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

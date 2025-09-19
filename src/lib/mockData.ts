@@ -1,4 +1,4 @@
-import { Aircraft, Assembly, Component, MaintenanceTask, MaintenanceCheck, Snag, ComplianceRecord, FlightLog, Specsheet } from "./types";
+import { Aircraft, Assembly, Component, MaintenanceTask, Snag, ComplianceRecord, FlightLog, Specsheet } from "./types";
 
 export const operator = { id: "op-001", name: "Safari Air Limited", icao: "SFR", country: "TZ" };
 
@@ -145,31 +145,10 @@ export const maintenanceTasks: MaintenanceTask[] = [
 ];
 
 // Example Check definitions (grouped intervals). Tasks that belong to a Check will set checkId and be hidden from monitoring.
-export const maintenanceChecks: MaintenanceCheck[] = [
-  { id: "check-C208B-100hr", aircraftType: "C208B", title: "100 Hour Check", intervalHrs: 100, lastDoneDate: "2025-08-20", lastDoneHrs: 6075.0, reference: "AMP-C208B-CH5-100H" },
-  // C208B Inspection Docs mapped to checks
-  { id: "check-C208B-5-15-0A", aircraftType: "C208B", title: "5-15-0A Annual", intervalDays: 365, reference: "5-15-0A" },
-  { id: "check-C208B-5-15-01", aircraftType: "C208B", title: "5-15-01 12M", intervalDays: 365, reference: "5-15-01" },
-  { id: "check-C208B-5-15-02", aircraftType: "C208B", title: "5-15-02 24M", intervalDays: 730, reference: "5-15-02" },
-  { id: "check-C208B-5-15-03", aircraftType: "C208B", title: "5-15-03 48M", intervalDays: 1460, reference: "5-15-03" },
-  { id: "check-C208B-5-15-04", aircraftType: "C208B", title: "5-15-04 72M", intervalDays: 2190, reference: "5-15-04" },
-  { id: "check-C208B-5-15-05", aircraftType: "C208B", title: "5-15-05 144M", intervalDays: 4380, reference: "5-15-05" },
-  { id: "check-C208B-5-15-06", aircraftType: "C208B", title: "5-15-06 200H/12M", intervalHrs: 200, intervalDays: 365, reference: "5-15-06" },
-  { id: "check-C208B-5-15-07", aircraftType: "C208B", title: "5-15-07 400H/12M", intervalHrs: 400, intervalDays: 365, reference: "5-15-07" },
-  { id: "check-C208B-5-15-08", aircraftType: "C208B", title: "5-15-08 400H/24M", intervalHrs: 400, intervalDays: 730, reference: "5-15-08" },
-  { id: "check-C208B-5-15-09", aircraftType: "C208B", title: "5-15-09 800H/12M", intervalHrs: 800, intervalDays: 365, reference: "5-15-09" },
-  { id: "check-C208B-5-15-10", aircraftType: "C208B", title: "5-15-10 800H/24M", intervalHrs: 800, intervalDays: 730, reference: "5-15-10" },
-  { id: "check-C208B-5-15-11", aircraftType: "C208B", title: "5-15-11 1600H/24M", intervalHrs: 1600, intervalDays: 730, reference: "5-15-11" },
-  { id: "check-C208B-5-15-12", aircraftType: "C208B", title: "5-15-12 1600H/60M", intervalHrs: 1600, intervalDays: 1825, reference: "5-15-12" },
-  { id: "check-C208B-5-15-20", aircraftType: "C208B", title: "5-15-20 12M (No Grace)", intervalDays: 365, reference: "5-15-20" },
-  { id: "check-C208B-5-15-21", aircraftType: "C208B", title: "5-15-21 12M (No Grace)", intervalDays: 365, reference: "5-15-21" },
-  { id: "check-C208B-5-15-22", aircraftType: "C208B", title: "5-15-22 12M (No Grace)", intervalDays: 365, reference: "5-15-22" },
-  { id: "check-C208B-5-15-24", aircraftType: "C208B", title: "5-15-24 200H", intervalHrs: 200, reference: "5-15-24" }
-];
 
 export const snags: Snag[] = [
-  { id: "snag-AAC-001", aircraftId: "ac-AAC", reportedAt: "2025-09-12", reportedBy: "Capt. K. Moyo", description: "Left landing light intermittent", severity: "Minor", status: "Deferred", MELRef: "33-41-01", deferralCategory: "C", deferralLimitDays: 10, deferralStart: "2025-09-13" },
-  { id: "snag-AAG-002", aircraftId: "ac-AAG", reportedAt: "2025-09-10", reportedBy: "Engineer P. Nyerere", description: "Hydraulic leak observed at right main gear", severity: "Significant", status: "Open" }
+  { id: "snag-AAC-001", snagId: "AAC-001", aircraftId: "ac-AAC", dateReported: "2025-09-12", reportedBy: "Capt. K. Moyo", description: "Left landing light intermittent", severity: "Minor", status: "Open", partsOrdered: false, action: "Investigate and repair", createdAt: "2025-09-12T10:00:00Z", updatedAt: "2025-09-12T10:00:00Z" },
+  { id: "snag-AAG-002", snagId: "AAG-002", aircraftId: "ac-AAG", dateReported: "2025-09-10", reportedBy: "Engineer P. Nyerere", description: "Hydraulic leak observed at right main gear", severity: "Major", status: "Open", partsOrdered: false, action: "Investigate and repair", createdAt: "2025-09-10T14:30:00Z", updatedAt: "2025-09-10T14:30:00Z" }
 ];
 
 export const complianceRecords: ComplianceRecord[] = [

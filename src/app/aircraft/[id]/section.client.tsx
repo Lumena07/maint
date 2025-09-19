@@ -1,12 +1,11 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { Aircraft, ComplianceRecord, MaintenanceCheck, MaintenanceTask } from "@/lib/types";
+import { Aircraft, ComplianceRecord, MaintenanceTask } from "@/lib/types";
 import { DueList } from "@/components/DueList";
 
 type Props = {
   aircraft: Aircraft;
   tasks: MaintenanceTask[];
-  checks: MaintenanceCheck[];
   compliance: ComplianceRecord[];
 };
 
@@ -17,7 +16,7 @@ type Overrides = {
 
 const storageKey = (acId: string) => `maint-overrides-${acId}`;
 
-export default function ClientDueSection({ aircraft, tasks, checks, compliance }: Props) {
+export default function ClientDueSection({ aircraft, tasks,compliance }: Props) {
   const [overrides, setOverrides] = useState<Overrides>({});
   const [records, setRecords] = useState<ComplianceRecord[]>(compliance);
 
@@ -42,7 +41,7 @@ export default function ClientDueSection({ aircraft, tasks, checks, compliance }
     try { localStorage.setItem(storageKey(aircraft.id), JSON.stringify(merged)); } catch {}
   };
 
-  const onMarkDone = (itemId: string, type: "task" | "check") => {
+  const onMarkDone = (itemId: string, _type: "task" | "check") => {
     const date = prompt("Completion date (YYYY-MM-DD)", new Date().toISOString().slice(0,10));
     if (!date) return;
     const hrsStr = prompt("Aircraft hours at completion (TSN)", String(aircraft.currentHrs));
@@ -77,7 +76,7 @@ export default function ClientDueSection({ aircraft, tasks, checks, compliance }
           </label>
         </div>
       </div>
-      <DueList aircraft={effectiveAircraft} tasks={tasks} checks={checks} compliance={records} onMarkDone={onMarkDone} />
+      <DueList aircraft={effectiveAircraft} tasks={tasks} compliance={records} onMarkDone={onMarkDone} />
     </div>
   );
 }
