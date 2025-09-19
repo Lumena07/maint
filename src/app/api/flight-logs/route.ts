@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { aircraftId, date, blockHrs, cycles, techlogNumber, from, to, pilot, remarks, cofaReset, hoursToCheck, isExtension } = body;
+    const { aircraftId, date, blockHrs, cycles, techlogNumber, from, to, pilot, remarks, cofaReset, hoursToCheck, isExtension, engineOHReset, propOHReset } = body;
 
     if (!aircraftId || !date || blockHrs === undefined || cycles === undefined) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -109,6 +109,16 @@ export async function POST(request: NextRequest) {
         currentCofAHours += flightLog.blockHrs;
       }
       
+      // Handle Engine OH reset
+      if ((flightLog as any).engineOHReset) {
+        currentEngineOH = aircraft.EngineTBO || 5100;
+      }
+      
+      // Handle Prop OH reset
+      if ((flightLog as any).propOHReset) {
+        currentPropOH = aircraft.PropTBO || 3000;
+      }
+      
       // Handle hours to check
       if ((flightLog as any).hoursToCheck && (flightLog as any).hoursToCheck > 0) {
         if ((flightLog as any).isExtension) {
@@ -141,6 +151,16 @@ export async function POST(request: NextRequest) {
       currentCofAHours = 0;
     } else {
       currentCofAHours += parseFloat(blockHrs);
+    }
+    
+    // Handle Engine OH reset for new entry
+    if (engineOHReset) {
+      currentEngineOH = aircraft.EngineTBO || 5100;
+    }
+    
+    // Handle Prop OH reset for new entry
+    if (propOHReset) {
+      currentPropOH = aircraft.PropTBO || 3000;
     }
     
     // Handle hours to check for new entry
@@ -187,6 +207,8 @@ export async function POST(request: NextRequest) {
       ...(cofaReset && { cofaReset }),
       ...(hoursToCheck !== undefined && hoursToCheck > 0 && { hoursToCheck }),
       ...(isExtension && { isExtension }),
+      ...(engineOHReset && { engineOHReset }),
+      ...(propOHReset && { propOHReset }),
       // Store calculated values
       engineTSN,
       engineCSN,

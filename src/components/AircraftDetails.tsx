@@ -67,6 +67,8 @@ export const AircraftDetails = ({ aircraft, onAircraftUpdate }: AircraftDetailsP
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [isSaving, setIsSaving] = useState(false);
   const [currentAircraft, setCurrentAircraft] = useState<Aircraft>(aircraft);
+  const [isCofAExtensionOpen, setIsCofAExtensionOpen] = useState(false);
+  const [cofaExtensionData, setCofAExtensionData] = useState({ extensionDate: '', extensionDays: '' });
 
   const handleOpenForm = (itemId?: string) => {
     setEditingItem(itemId || null);
@@ -171,6 +173,61 @@ export const AircraftDetails = ({ aircraft, onAircraftUpdate }: AircraftDetailsP
 
   const handleInputChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
+  };
+
+  const handleCofAExtensionSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    
+    try {
+      const extensionDays = parseInt(cofaExtensionData.extensionDays);
+      if (!cofaExtensionData.extensionDate || isNaN(extensionDays) || extensionDays <= 0) {
+        alert('Please enter valid extension date and days');
+        return;
+      }
+
+      const updateData: Partial<Aircraft> = {
+        cofaExtensionDate: cofaExtensionData.extensionDate,
+        cofaExtensionDays: extensionDays
+      };
+
+      const response = await fetch('/api/aircraft/update-cache', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          aircraftId: aircraft.id,
+          updates: updateData
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save CofA extension');
+      }
+
+      const updatedAircraft = await response.json();
+      
+      // Update local state
+      setCurrentAircraft(updatedAircraft);
+      
+      if (onAircraftUpdate) {
+        onAircraftUpdate(updatedAircraft);
+      }
+
+      setIsCofAExtensionOpen(false);
+      setCofAExtensionData({ extensionDate: '', extensionDays: '' });
+    } catch (error) {
+      console.error('Error saving CofA extension:', error);
+      alert('Failed to save CofA extension. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCofAExtensionClose = () => {
+    setIsCofAExtensionOpen(false);
+    setCofAExtensionData({ extensionDate: '', extensionDays: '' });
   };
 
   const monitoringItems: AircraftMonitoringItem[] = [
@@ -337,6 +394,11 @@ export const AircraftDetails = ({ aircraft, onAircraftUpdate }: AircraftDetailsP
                         {(item.id === 'cofa' || item.id === 'wandb' || item.id === 'fireextinguisher' || item.id === 'standbycompass') && (
                           <div className="text-xs text-gray-500">Auto-calculated</div>
                         )}
+                        {item.id === 'cofa' && currentAircraft.cofaExtensionDate && currentAircraft.cofaExtensionDays && (
+                          <div className="text-xs text-green-600 mt-1">
+                            Extended {currentAircraft.cofaExtensionDays} days on {formatDate(currentAircraft.cofaExtensionDate)}
+                          </div>
+                        )}
                       </div>
                     ) : (
                       "Not set"
@@ -360,12 +422,22 @@ export const AircraftDetails = ({ aircraft, onAircraftUpdate }: AircraftDetailsP
                     )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button
-                      onClick={() => handleOpenForm(item.id)}
-                      className="text-blue-600 hover:text-blue-900 focus:outline-none focus:underline"
-                    >
-                      Edit
-                    </button>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleOpenForm(item.id)}
+                        className="text-blue-600 hover:text-blue-900 focus:outline-none focus:underline"
+                      >
+                        Edit
+                      </button>
+                      {item.id === 'cofa' && (
+                        <button
+                          onClick={() => setIsCofAExtensionOpen(true)}
+                          className="text-green-600 hover:text-green-900 focus:outline-none focus:underline"
+                        >
+                          Extend
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -504,6 +576,66 @@ export const AircraftDetails = ({ aircraft, onAircraftUpdate }: AircraftDetailsP
                     className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400"
                   >
                     {isSaving ? "Saving..." : "Save"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CofA Extension Modal */}
+      {isCofAExtensionOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Extend CofA
+              </h3>
+              
+              <form onSubmit={handleCofAExtensionSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Extension Date
+                  </label>
+                  <input
+                    type="date"
+                    value={cofaExtensionData.extensionDate}
+                    onChange={(e) => setCofAExtensionData({...cofaExtensionData, extensionDate: e.target.value})}
+                    className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Extension Days
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={cofaExtensionData.extensionDays}
+                    onChange={(e) => setCofAExtensionData({...cofaExtensionData, extensionDays: e.target.value})}
+                    className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter number of days"
+                    required
+                  />
+                </div>
+
+                <div className="flex justify-end space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={handleCofAExtensionClose}
+                    className="rounded-md bg-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSaving}
+                    className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-400"
+                  >
+                    {isSaving ? "Saving..." : "Extend CofA"}
                   </button>
                 </div>
               </form>

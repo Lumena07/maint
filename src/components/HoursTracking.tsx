@@ -19,6 +19,8 @@ type FlightLogEntry = {
   cofaReset?: boolean;
   hoursToCheck?: number;
   isExtension?: boolean;
+  engineOHReset?: boolean;
+  propOHReset?: boolean;
 };
 
 type CheckExtension = {
@@ -45,9 +47,11 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
     remarks: '',
     cofaReset: false,
     hoursToCheck: 0,
-    isExtension: false
+    isExtension: false,
+    engineOHReset: false,
+    propOHReset: false
   });
-  const [selectedType, setSelectedType] = useState<'regular' | 'check' | 'extension'>('regular');
+  const [selectedType, setSelectedType] = useState<'regular' | 'check' | 'extension' | 'cofa' | 'engineoh' | 'propoh'>('regular');
 
   const engines = assemblies.filter(a => a.type === "Engine");
   const props = assemblies.filter(a => a.type === "Propeller");
@@ -94,7 +98,9 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
           remarks: '',
           cofaReset: false,
           hoursToCheck: 0,
-          isExtension: false
+          isExtension: false,
+          engineOHReset: false,
+          propOHReset: false
         });
         setSelectedType('regular');
         setIsAddingFlight(false);
@@ -179,6 +185,16 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
         currentCofAHours = 0;
       } else {
         currentCofAHours += flightLog.blockHrs;
+      }
+      
+      // Handle Engine OH reset
+      if ((flightLog as any).engineOHReset) {
+        currentEngineOH = aircraft.EngineTBO || 5100;
+      }
+      
+      // Handle Prop OH reset
+      if ((flightLog as any).propOHReset) {
+        currentPropOH = aircraft.PropTBO || 3000;
       }
       
       // Handle hours to check
@@ -309,6 +325,14 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
                         <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
                           CofA Reset
                         </span>
+                      ) : (log as any).engineOHReset ? (
+                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                          Engine O/H
+                        </span>
+                      ) : (log as any).propOHReset ? (
+                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                          Prop O/H
+                        </span>
                       ) : (log as any).isExtension ? (
                         <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
                           Extension
@@ -406,12 +430,18 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
                 <select
                   value={selectedType}
                   onChange={(e) => {
-                    const value = e.target.value as 'regular' | 'check' | 'extension';
+                    const value = e.target.value as 'regular' | 'check' | 'extension' | 'cofa' | 'engineoh' | 'propoh';
                     setSelectedType(value);
                     if (value === "regular") {
-                      setNewFlightEntry(prev => ({ ...prev, isExtension: false, hoursToCheck: 0 }));
+                      setNewFlightEntry(prev => ({ ...prev, isExtension: false, hoursToCheck: 0, cofaReset: false, engineOHReset: false, propOHReset: false }));
+                    } else if (value === "cofa") {
+                      setNewFlightEntry(prev => ({ ...prev, isExtension: false, hoursToCheck: 0, cofaReset: true, engineOHReset: false, propOHReset: false }));
+                    } else if (value === "engineoh") {
+                      setNewFlightEntry(prev => ({ ...prev, isExtension: false, hoursToCheck: 0, cofaReset: false, engineOHReset: true, propOHReset: false }));
+                    } else if (value === "propoh") {
+                      setNewFlightEntry(prev => ({ ...prev, isExtension: false, hoursToCheck: 0, cofaReset: false, engineOHReset: false, propOHReset: true }));
                     } else {
-                      setNewFlightEntry(prev => ({ ...prev, isExtension: value === "extension" }));
+                      setNewFlightEntry(prev => ({ ...prev, isExtension: value === "extension", cofaReset: false, engineOHReset: false, propOHReset: false }));
                     }
                   }}
                   className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
@@ -419,19 +449,10 @@ export const HoursTracking = ({ aircraft, assemblies }: HoursTrackingProps) => {
                   <option value="regular">Regular Flight</option>
                   <option value="check">Check (replaces hoursToCheck)</option>
                   <option value="extension">Extension (adds to existing hoursToCheck)</option>
+                  <option value="cofa">CofA (resets CofA_Hours to 0)</option>
+                  <option value="engineoh">Engine O/H (resets Engine OH to TBO)</option>
+                  <option value="propoh">Prop O/H (resets Prop OH to TBO)</option>
                 </select>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="cofaReset"
-                  checked={newFlightEntry.cofaReset}
-                  onChange={(e) => setNewFlightEntry(prev => ({ ...prev, cofaReset: e.target.checked }))}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="cofaReset" className="ml-2 block text-sm text-gray-700">
-                  CofA Reset (resets CofA_Hours to 0)
-                </label>
               </div>
               {(selectedType === 'check' || selectedType === 'extension') && (
                 <div>

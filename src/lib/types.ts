@@ -18,6 +18,8 @@ export type Aircraft = {
   hoursToCheck?: number;
   engineOH?: number;
   propOH?: number;
+  EngineTBO?: number;
+  PropTBO?: number;
   // Aircraft Details
   yearOfManufacture?: number;
   serialNumber?: string;
@@ -26,6 +28,8 @@ export type Aircraft = {
   propellerNumber?: string;
   lastCofA?: string;
   lastCofANextDue?: string;
+  cofaExtensionDate?: string;
+  cofaExtensionDays?: number;
   lastWandB?: string;
   lastWandBNextDue?: string;
   navdataBaseLastDone?: string;
