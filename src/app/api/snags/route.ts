@@ -41,13 +41,17 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log("🔧 Snags API received request:", body);
+    
     const { snagId, dateReported, aircraftId, description, status, severity, partsOrdered, action, notes, reportedBy, assignedTo, estimatedResolutionDate } = body;
 
     if (!snagId || !dateReported || !aircraftId || !description || !status || !severity || !action) {
+      console.log("❌ Missing required fields:", { snagId, dateReported, aircraftId, description, status, severity, action });
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const cache = readCache();
+    console.log("🔧 Cache loaded, current snags count:", cache.snags?.length || 0);
     
     // Check if snag ID already exists
     const existingSnag = cache.snags?.find((s: Snag) => s.snagId === snagId);
@@ -84,8 +88,18 @@ export async function POST(request: NextRequest) {
     }
 
     cache.snags.push(newSnag);
+    console.log("🔧 Snag added to cache, new count:", cache.snags.length);
+    
     writeCache(cache);
+    console.log("🔧 Cache written successfully");
+    
+    // Verify the snag was actually saved
+    const verifyCache = readCache();
+    const savedSnag = verifyCache.snags?.find((s: Snag) => s.snagId === snagId);
+    console.log("🔍 Verification - snag found in cache:", !!savedSnag);
+    console.log("🔍 Verification - total snags in cache:", verifyCache.snags?.length || 0);
 
+    console.log("✅ Returning created snag:", newSnag.id);
     return NextResponse.json(newSnag, { status: 201 });
 
   } catch (error) {

@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { Aircraft, Snag, SnagStatus, SnagSeverity, ADSB, ADSBStatus, ADSBPriority, ADSBType, ADSBComputedStatus, ADD, ADDStatus, ADDCategory, ADDComputedStatus, Personnel, TrainingRecord } from "@/lib/types";
 import { AircraftCard } from "./AircraftCard";
 import { PersonnelTracking } from "./PersonnelTracking";
+import ReliabilityDashboard from "./ReliabilityDashboard";
 
-type Tab = "fleet" | "snags" | "ad-sb" | "active-add" | "flying-hours" | "training";
+type Tab = "fleet" | "snags" | "ad-sb" | "active-add" | "flying-hours" | "training" | "reliability";
 
 interface MainDashboardTabsProps {
   aircraft: Aircraft[];
@@ -89,18 +90,23 @@ export const MainDashboardTabs = ({ aircraft }: MainDashboardTabsProps) => {
     );
   };
 
+  // Function to refresh snags list
+  const refreshSnags = async () => {
+    try {
+      const response = await fetch('/api/snags');
+      if (response.ok) {
+        const snagsData = await response.json();
+        setSnags(snagsData);
+      }
+    } catch (error) {
+      console.error('Error loading snags:', error);
+    }
+  };
+
   // Load snags and AD/SB records on component mount
   useEffect(() => {
     const loadSnags = async () => {
-      try {
-        const response = await fetch('/api/snags');
-        if (response.ok) {
-          const snagsData = await response.json();
-          setSnags(snagsData);
-        }
-      } catch (error) {
-        console.error('Error loading snags:', error);
-      }
+      await refreshSnags();
     };
 
     const loadAdsbRecords = async () => {
@@ -136,9 +142,10 @@ export const MainDashboardTabs = ({ aircraft }: MainDashboardTabsProps) => {
     { id: "fleet" as Tab, label: "Fleet Management" },
     { id: "snags" as Tab, label: "Snags Tracking" },
     { id: "ad-sb" as Tab, label: "AD/SB Compliance" },
-    { id: "active-add" as Tab, label: "Active ADD" },
+    { id: "active-add" as Tab, label: "MEL Tracking" },
     { id: "flying-hours" as Tab, label: "Month Flying Hours" },
     { id: "training" as Tab, label: "Maintenance Training" },
+    { id: "reliability" as Tab, label: "Reliability Program" },
   ];
 
   const handleTabClick = (tabId: Tab) => {
@@ -978,7 +985,7 @@ export const MainDashboardTabs = ({ aircraft }: MainDashboardTabsProps) => {
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Active ADD (Acceptable Deferred Defects)</h2>
+              <h2 className="text-xl font-semibold">MEL Tracking</h2>
               <button 
                 onClick={() => handleOpenAddModal()}
                 className="rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
@@ -1161,6 +1168,9 @@ export const MainDashboardTabs = ({ aircraft }: MainDashboardTabsProps) => {
 
       case "training":
         return <PersonnelTracking />;
+
+        case "reliability":
+          return <ReliabilityDashboard aircraft={aircraftList} onRefreshSnags={refreshSnags} />;
 
       default:
         return null;

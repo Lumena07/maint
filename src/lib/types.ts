@@ -491,4 +491,388 @@ export type TrainingRecord = {
   updatedAt: string;
 };
 
+// PIREP (Pilot Report) Types for Reliability Program
+export type PIREPCategory = 
+  | "ENGINE" 
+  | "AVIONICS" 
+  | "HYDRAULIC" 
+  | "ELECTRICAL" 
+  | "STRUCTURAL" 
+  | "PERFORMANCE" 
+  | "ENVIRONMENTAL" 
+  | "NAVIGATION" 
+  | "COMMUNICATION" 
+  | "LANDING_GEAR" 
+  | "PNEUMATIC" 
+  | "FUEL_SYSTEM" 
+  | "OTHER";
+
+export type PIREPSeverity = 
+  | "INFORMATIONAL" 
+  | "MINOR" 
+  | "MAJOR" 
+  | "CRITICAL";
+
+export type PIREPStatus = 
+  | "SUBMITTED" 
+  | "REVIEWED" 
+  | "INVESTIGATING" 
+  | "RESOLVED" 
+  | "CLOSED";
+
+export type PIREP = {
+  id: ID;
+  pirepNumber: string; // Auto-generated unique identifier
+  aircraftId: ID;
+  flightId?: ID; // Optional link to specific flight
+  reportedBy: string; // Pilot name/ID
+  reportDate: string;
+  category: PIREPCategory;
+  severity: PIREPSeverity;
+  status: PIREPStatus;
+  title: string;
+  description: string;
+  systemAffected: string;
+  flightPhase?: "PRE_FLIGHT" | "TAXI" | "TAKEOFF" | "CLIMB" | "CRUISE" | "DESCENT" | "APPROACH" | "LANDING" | "POST_FLIGHT";
+  weatherConditions?: string;
+  altitude?: number;
+  airspeed?: number;
+  actionTaken?: string;
+  followUpRequired: boolean;
+  followUpNotes?: string;
+  snagGenerated?: boolean; // Whether this PIREP generated a snag
+  generatedSnagId?: ID; // Reference to auto-generated snag
+  reviewedBy?: string;
+  reviewedDate?: string;
+  investigationNotes?: string;
+  resolvedDate?: string;
+  resolvedBy?: string;
+  // Engine-specific fields (only populated when category = "ENGINE")
+  engineNumber?: string;
+  engineEventType?: string;
+  oilTemperature?: number;
+  oilPressure?: number;
+  vibrationLevel?: number;
+  egtTemperature?: number;
+  n1RPM?: number;
+  n2RPM?: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// Reliability Metrics Types
+export type ReliabilityMetricType = 
+  | "MTBF" // Mean Time Between Failures
+  | "MTTR" // Mean Time To Repair
+  | "FAILURE_RATE" 
+  | "DISPATCH_RELIABILITY"
+  | "PIREP_FREQUENCY"
+  | "SNAG_FREQUENCY"
+  | "COMPONENT_RELIABILITY"
+  | "AIRCRAFT_AVAILABILITY";
+
+export type ReliabilityMetric = {
+  id: ID;
+  aircraftId: ID;
+  componentId?: ID;
+  metricType: ReliabilityMetricType;
+  value: number;
+  unit: string;
+  period: string; // e.g., "30_DAYS", "90_DAYS", "ANNUAL"
+  calculatedDate: string;
+  baselineValue?: number;
+  targetValue?: number;
+  trend: "IMPROVING" | "STABLE" | "DEGRADING";
+  notes?: string;
+};
+
+// Alert System Types
+export type AlertType = 
+  | "PERFORMANCE_DEVIATION" 
+  | "TREND_ANOMALY" 
+  | "THRESHOLD_EXCEEDED" 
+  | "RECURRING_PIREP" 
+  | "COMPLIANCE_ISSUE"
+  | "MAINTENANCE_OVERDUE";
+
+export type AlertSeverity = 
+  | "LOW" 
+  | "MEDIUM" 
+  | "HIGH" 
+  | "CRITICAL";
+
+export type AlertStatus = 
+  | "OPEN" 
+  | "INVESTIGATING" 
+  | "RESOLVED" 
+  | "CLOSED";
+
+export type Alert = {
+  id: ID;
+  aircraftId: ID;
+  alertType: AlertType;
+  severity: AlertSeverity;
+  status: AlertStatus;
+  title: string;
+  message: string;
+  threshold?: number;
+  actualValue?: number;
+  relatedPirepId?: ID;
+  relatedSnagId?: ID;
+  assignedTo?: string;
+  investigationNotes?: string;
+  resolutionNotes?: string;
+  createdAt: string;
+  updatedAt: string;
+  resolvedAt?: string;
+  resolvedBy?: string;
+};
+
+// Flight Operations Tracking Types
+export type FlightDelayReason =
+  | "TECHNICAL"
+  | "WEATHER"
+  | "OPERATIONAL"
+  | "AIR_TRAFFIC"
+  | "PASSENGER"
+  | "CREW"
+  | "SECURITY"
+  | "OTHER";
+
+export type FlightStatus =
+  | "SCHEDULED"
+  | "BOARDING"
+  | "DEPARTED"
+  | "IN_FLIGHT"
+  | "LANDED"
+  | "DELAYED"
+  | "CANCELLED"
+  | "DIVERTED";
+
+export type Flight = {
+  id: ID;
+  flightNumber: string;
+  aircraftId: ID;
+  scheduledDeparture: string;
+  actualDeparture?: string;
+  scheduledArrival: string;
+  actualArrival?: string;
+  delayMinutes?: number;
+  delayReason?: FlightDelayReason;
+  status: FlightStatus;
+  cancellationReason?: string;
+  diversionReason?: string;
+  departureAirport: string;
+  arrivalAirport: string;
+  flightHours: number;
+  flightCycles: number;
+  crewId?: string;
+  passengers?: number;
+  cargo?: number;
+  fuelUsed?: number;
+  weatherConditions?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// Maintenance Downtime Tracking
+export type MaintenanceType =
+  | "SCHEDULED"
+  | "UNSCHEDULED"
+  | "A_CHECK"
+  | "B_CHECK"
+  | "C_CHECK"
+  | "D_CHECK"
+  | "LINE_MAINTENANCE"
+  | "HANGAR_MAINTENANCE"
+  | "COMPONENT_REPLACEMENT"
+  | "ENGINE_OVERHAUL"
+  | "INSPECTION";
+
+export type MaintenanceStatus =
+  | "PLANNED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "DELAYED"
+  | "CANCELLED";
+
+export type MaintenanceRecord = {
+  id: ID;
+  aircraftId: ID;
+  maintenanceType: MaintenanceType;
+  status: MaintenanceStatus;
+  startDate: string;
+  endDate?: string;
+  plannedDuration: number; // hours
+  actualDuration?: number; // hours
+  downtimeHours: number; // hours aircraft unavailable
+  description: string;
+  workPerformed: string;
+  partsUsed: string[];
+  laborHours: number;
+  cost?: number;
+  performedBy: string;
+  supervisor?: string;
+  inspectionResults?: string;
+  nextDueDate?: string;
+  notes?: string;
+  relatedSnagId?: ID;
+  relatedPirepId?: ID;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// Component Tracking
+export type ComponentStatus =
+  | "INSTALLED"
+  | "REMOVED"
+  | "OVERHAULED"
+  | "SCRAPPED"
+  | "IN_STOCK"
+  | "ON_ORDER";
+
+export type RemovalReason =
+  | "SCHEDULED"
+  | "UNSCHEDULED"
+  | "FAILURE"
+  | "OVERHAUL"
+  | "INSPECTION"
+  | "UPGRADE"
+  | "MODIFICATION";
+
+export type ComponentRecord = {
+  id: ID;
+  partNumber: string;
+  serialNumber: string;
+  aircraftId?: ID;
+  componentType: string;
+  ataSystem: string; // ATA-100 system code
+  description: string;
+  status: ComponentStatus;
+  installationDate?: string;
+  removalDate?: string;
+  removalReason?: RemovalReason;
+  totalFlightHours: number;
+  totalFlightCycles: number;
+  timeSinceInstallation?: number; // hours
+  cyclesSinceInstallation?: number;
+  timeSinceOverhaul?: number; // hours
+  cyclesSinceOverhaul?: number;
+  nextInspectionDue?: string;
+  nextOverhaulDue?: string;
+  overhaulLimit: number; // hours
+  cycleLimit: number;
+  condition: "NEW" | "SERVICEABLE" | "UNSERVICEABLE" | "CONDEMNED";
+  location?: string; // if in stock
+  cost?: number;
+  supplier?: string;
+  warrantyExpiry?: string;
+  notes?: string;
+  relatedMaintenanceId?: ID;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// Engine-Specific Tracking
+export type EngineStatus =
+  | "OPERATIONAL"
+  | "LIMITED"
+  | "GROUNDED"
+  | "OVERHAUL"
+  | "REMOVED";
+
+export type EngineEvent =
+  | "START"
+  | "SHUTDOWN"
+  | "INFLIGHT_SHUTDOWN"
+  | "ABORTED_TAKEOFF"
+  | "FLAME_OUT"
+  | "OVERSPEED"
+  | "OVERTEMP"
+  | "VIBRATION_ALARM"
+  | "OIL_PRESSURE_LOW"
+  | "FUEL_PRESSURE_LOW";
+
+export type EngineEventRecord = {
+  id: ID;
+  aircraftId: ID;
+  engineNumber: number; // 1 or 2 for twin engines
+  eventType: EngineEvent;
+  eventDate: string;
+  flightId?: ID;
+  flightPhase?: "TAXI" | "TAKEOFF" | "CLIMB" | "CRUISE" | "DESCENT" | "APPROACH" | "LANDING";
+  altitude?: number;
+  airspeed?: number;
+  engineHours: number;
+  engineCycles: number;
+  oilTemperature?: number;
+  oilPressure?: number;
+  fuelFlow?: number;
+  vibrationLevel?: number;
+  egtTemperature?: number;
+  n1RPM?: number;
+  n2RPM?: number;
+  description: string;
+  actionTaken: string;
+  pilotReported: boolean;
+  autoReported: boolean;
+  maintenanceRequired: boolean;
+  followUpRequired: boolean;
+  resolved: boolean;
+  resolutionDate?: string;
+  relatedMaintenanceId?: ID;
+  relatedSnagId?: ID;
+  relatedPirepId?: ID;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// Shop Visit Tracking
+export type ShopVisitType =
+  | "ENGINE_OVERHAUL"
+  | "COMPONENT_OVERHAUL"
+  | "MAJOR_INSPECTION"
+  | "MODIFICATION"
+  | "REPAIR"
+  | "CALIBRATION"
+  | "TESTING";
+
+export type ShopVisitStatus =
+  | "PLANNED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "DELAYED"
+  | "CANCELLED";
+
+export type ShopVisit = {
+  id: ID;
+  aircraftId?: ID;
+  componentId?: ID;
+  visitType: ShopVisitType;
+  status: ShopVisitStatus;
+  shopName: string;
+  shopLocation: string;
+  startDate: string;
+  plannedCompletionDate: string;
+  actualCompletionDate?: string;
+  description: string;
+  workPerformed: string;
+  partsReplaced: string[];
+  laborHours: number;
+  totalCost: number;
+  warrantyPeriod?: number; // months
+  inspectionResults?: string;
+  testResults?: string;
+  certificationRequired: boolean;
+  certificationNumber?: string;
+  nextDueDate?: string;
+  notes?: string;
+  relatedMaintenanceId?: ID;
+  relatedComponentId?: ID;
+  createdAt: string;
+  updatedAt: string;
+};
+
 
